@@ -1,0 +1,46 @@
+package com.baima.jianjia.service;
+
+import java.util.List;
+
+import com.baima.jianjia.mapper.UserMapper;
+import com.baima.jianjia.pojo.User;
+import com.baima.jianjia.pojo.Userinfo;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class UserserviceImpl implements Userservice{
+	@Autowired
+	UserMapper userMapper;
+	@Override
+	public List<User> queryUserList(){
+		return userMapper.queryUserList();
+	}
+
+	@Override
+	public List<String> queryUserNameList(){
+		return userMapper.queryUserNameList();
+	}
+	@Override
+	public User queryUserByName(String name){
+		return userMapper.queryUserByName(name);
+	}
+	@Override
+	public void addUser(User user){
+		userMapper.addUser(user.username, user.password);
+	}
+	@Override
+	public Userinfo getUserInfo(User user){
+		return userMapper.getUserInfo(user.username);
+	}
+	@Override
+	public List<Userinfo> searchKey(String key){
+		key="%"+key+"%";
+		return userMapper.searchKey(key);
+	}
+	public List<Userinfo> searchNikeName(String nikename){
+		nikename="%"+nikename+"%";
+		return userMapper.searchNikeName(nikename);
+	}
+}

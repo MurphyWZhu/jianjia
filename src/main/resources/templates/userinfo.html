@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="us" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<title>用户信息</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width", initial-scale=1>
+		<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+		<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+		<script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
+		<script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+		<script>
+			$(document).ready(function(){
+
+				$.post("/test","",function(data,status){
+					if(data==""){
+						$(window).attr('location','/login');
+					}else{
+						var rr = $.parseJSON(JSON.stringify(data));
+						$("#div1").append('<p>'+rr.username+rr.age+rr.address+rr.nikename+rr.sex+rr.job+rr.phonenumber+rr.profilepicture+'</p>');
+					}
+				});
+			});
+	</script>
+
+	</head>
+	<body>
+		<div id="div1">
+		</div>
+	</body>
+</html>

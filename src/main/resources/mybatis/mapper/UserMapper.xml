@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.baima.jianjia.mapper.UserMapper">
+    <select id="queryUserList" resultType="User">
+		select username,password from jianjia.userlogin
+	</select>
+    <select id="queryUserNameList" resultType="String">
+		select username from jianjia.userlogin
+	</select>
+    <select id="queryUserByName" resultType="User" parameterType="String">
+		select * from jianjia.userlogin where username=#{name}
+	</select>
+    <select id="addUser">
+		insert into jianjia.userlogin values (#{username},#{password})
+	</select>
+    <select id="getUserInfo" resultType="Userinfo" parameterType="String">
+		select * from jianjia.userinfo where username=#{username}
+	</select>
+	<select id="searchKey" resultType="Userinfo" parameterType="String">
+		select * from jianjia.userinfo where key like #{key}
+	</select>
+	<select id="searchNikeName" resultType="Userinfo" parameterType="String">
+		select * from jianjia.userinfo where nikename like #{nikename}
+	</select>
+</mapper>
