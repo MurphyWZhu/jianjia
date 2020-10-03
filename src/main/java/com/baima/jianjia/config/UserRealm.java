@@ -1,4 +1,7 @@
 package  com.baima.jianjia.config;
+/*
+* 用于登录认证
+*/
 
 import com.baima.jianjia.pojo.User;
 import com.baima.jianjia.service.UserserviceImpl;
@@ -18,7 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class UserRealm extends AuthorizingRealm {
     @Autowired
-    UserserviceImpl userservice;
+    UserserviceImpl userService;
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals){
         return null;
@@ -26,10 +29,11 @@ public class UserRealm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException{
         UsernamePasswordToken userToken = (UsernamePasswordToken) token;
-        User user = userservice.queryUserByName(userToken.getUsername());
+        User user = userService.queryUserByName(userToken.getUsername());
         if (user==null) {
             return null;
         }
+        /*获取session把用户登录信息存到session中*/
         Subject currentSubject = SecurityUtils.getSubject();
         Session session = currentSubject.getSession();
         session.setAttribute("loginUser", user);

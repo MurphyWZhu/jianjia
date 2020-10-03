@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>搜索</title>
+</head>
+<body>
+<tr th:each="userinfo:${userinfoList}">
+    <td th:text="${userinfo}"></td>
+</tr>
+</body>
+</html>

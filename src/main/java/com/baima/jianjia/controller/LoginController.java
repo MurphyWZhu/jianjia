@@ -1,5 +1,7 @@
 package com.baima.jianjia.controller;
-
+/*
+ * 用于登录和注销的控制器
+ */
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;

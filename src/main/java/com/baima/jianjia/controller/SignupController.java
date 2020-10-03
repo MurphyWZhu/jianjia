@@ -1,5 +1,7 @@
 package com.baima.jianjia.controller;
-
+/*
+* 用于用户注册
+* */
 
 import java.util.List;
 
@@ -13,19 +15,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class SignupController{
 	@Autowired
-	UserserviceImpl userservice;
+	UserserviceImpl userService;
 	@PostMapping(value = "/tosignup")
 	public String login(String username,String password){
 		User user = new User();
 		user.username = username;
 		user.password = password;
-		List<String> usernameList = userservice.queryUserNameList();
+		List<String> usernameList = userService.queryUserNameList();
 		if(usernameList.contains(username)){
 			return "{\"info\":\"用户名已被注册\",\"code\":1}";
 		}
-		userservice.addUser(user);
+		userService.addUser(user);
 		return "{\"info\":\"注册成功\",\"code\":0}";
-		
 	}
 
 }

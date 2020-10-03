@@ -1,5 +1,8 @@
 package com.baima.jianjia.config;
-
+/*
+ * CorsConfig和CorsFilter用于请求头
+ * 不然浏览器老是出错
+ */
 import java.io.IOException;
 
 import javax.servlet.Filter;
@@ -11,7 +14,6 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 
 @WebFilter(filterName = "CorsFilter ")
 public class CorsFilter implements Filter {

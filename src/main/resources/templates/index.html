@@ -33,10 +33,9 @@
 </nav>
 
 <div class="container mt-3">
-    <form>
-        <div class="input-group mb-3 input-group-lg">
-            <input type="text" class="form-control">
-        </div>
+    <form method="post" th:action="@{/tosearch}" class="row">
+        <input name="key" id="key" type="text" class="form-control col-md-6">
+        <button type="submit" class="btn btn-primary col-md-2">搜索</button>
     </form>
 </div>
 </body>
