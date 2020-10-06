@@ -43,4 +43,10 @@ public class UserserviceImpl implements Userservice{
 		nikename="%"+nikename+"%";
 		return userMapper.searchNikeName(nikename);
 	}
+	public void updateUserInfo(String username, int age, String nikename,
+							   String sex, String department,
+							   String profilepicture, String key,
+							   String like){
+		userMapper.updateUserInfo(username, age, nikename, sex, department, profilepicture, key, like);
+	}
 }

@@ -12,11 +12,10 @@ import java.util.List;
 public class Userinfo {
     public String username;
     public int age;
-    public String address;
     public String nikename;
     public String sex;
-    public String job;
-    public String phonenumber;
+    public String department;
     public String profilepicture;
     public String key;
+    public String like;
 }

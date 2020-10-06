@@ -19,4 +19,8 @@ public interface UserMapper{
 	public Userinfo getUserInfo(String username);
 	public List<Userinfo> searchKey(String key);
 	public List<Userinfo> searchNikeName(String nikename);
+	public void updateUserInfo(@Param("username")String username, @Param("age")int age, @Param("nikename")String nikename,
+							   @Param("sex")String sex, @Param("department")String department,
+							   @Param("profilepicture")String profilepicture, @Param("key")String key,
+							   @Param("like")String like);
 }

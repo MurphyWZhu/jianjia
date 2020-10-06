@@ -13,4 +13,8 @@ public interface Userservice{
 	public Userinfo getUserInfo(User user);
 	public List<Userinfo> searchKey(String key);
 	public List<Userinfo> searchNikeName(String nikename);
+	public void updateUserInfo(String username, int age, String nikename,
+							   String sex, String department,
+							   String profilepicture, String key,
+							   String like);
 }

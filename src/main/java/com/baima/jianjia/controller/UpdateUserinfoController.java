@@ -1,8 +1,6 @@
 package com.baima.jianjia.controller;
 
-
 import com.baima.jianjia.pojo.User;
-
 import com.baima.jianjia.pojo.Userinfo;
 import com.baima.jianjia.service.UserserviceImpl;
 import org.apache.shiro.SecurityUtils;
@@ -10,17 +8,17 @@ import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 
 @RestController
-public class UserInfoController {
+public class UpdateUserinfoController {
     @Autowired
     UserserviceImpl userService;
-
-    @PostMapping(value = "/getuserinfo")
-    public Userinfo getInteger() {
+    @PostMapping(value = "updateuserinfo")
+    public String updateUserInfo(int age, String nikename,
+                                 String sex, String department,
+                                 String profilepicture, String key,
+                                 String like){
         Subject currentSubject = SecurityUtils.getSubject();
         Session session = currentSubject.getSession();
         User user = (User) session.getAttribute("loginUser");
@@ -28,11 +26,8 @@ public class UserInfoController {
             System.out.println("no login");
             return null;
         }
-        System.out.println(user.username);
-        return userService.getUserInfo(user);
-    }
-    @RequestMapping(value = "userinfo")
-    public ModelAndView UserInfo(){
-        return new ModelAndView("userinfo");
+        Userinfo userinfo = userService.getUserInfo(user);
+        userService.updateUserInfo(userinfo.username, age, nikename, sex, department, profilepicture, key, like);
+        return "hello";
     }
 }

@@ -1,30 +1,90 @@
 <!DOCTYPE html>
 <html lang="us" xmlns:th="http://www.thymeleaf.org">
-	<head>
-		<title>用户信息</title>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width", initial-scale=1>
-		<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
-		<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
-		<script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
-		<script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
-		<script>
-			$(document).ready(function(){
+<head>
+    <title>用户信息</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width" , initial-scale=1>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#subbut").click(function(){
+                $.post("/updateuserinfo","age="+$("#validationTooltip03").val()+"&nikename="+$("#validationTooltip02").val()+"&sex="+$("#validationTooltip04").val()+"&department="+$("#validationTooltip05").val()+"&profilepicture=https://aaa.a.png"+"&key="+$("#validationTooltip06").val()+"&like="+$("#validationTooltip07").val(),function(data,status){
+                });
+            });
 
-				$.post("/test","",function(data,status){
-					if(data==""){
-						$(window).attr('location','/login');
-					}else{
-						var rr = $.parseJSON(JSON.stringify(data));
-						$("#div1").append('<p>'+rr.username+rr.age+rr.address+rr.nikename+rr.sex+rr.job+rr.phonenumber+rr.profilepicture+'</p>');
-					}
-				});
-			});
-	</script>
+            $.post("/getuserinfo", "", function (data, status) {
+                if (data == "") {
+                    $(window).attr('location', '/login');
+                } else {
+                    var rr = $.parseJSON(JSON.stringify(data));
+                    $("#div1").append('<p>' + rr.username + rr.age + rr.address + rr.nikename + rr.sex + rr.job + rr.phonenumber + rr.profilepicture + '</p>');
+                    $("#validationTooltip01").val(rr.username);
+                    $("#validationTooltip02").val(rr.nikename);
+                    $("#validationTooltip03").val(rr.age);
+                    $("#validationTooltip04").val(rr.sex);
+                    $("#validationTooltip05").val(rr.department);
+                    $("#validationTooltip06").val(rr.key);
+                    $("#validationTooltip07").val(rr.like);
+                }
+            });
+        });
+    </script>
 
-	</head>
-	<body>
-		<div id="div1">
-		</div>
-	</body>
+</head>
+<body>
+<div class="container">
+    <div class="card">
+        <h2 class="card-title" style="text-align: center">个人信息</h2>
+        <div class="card-body">
+            <div>
+                <div class="needs-validation" novalidate>
+                    <div class="form-row">
+                        <div class="col-md-6 mb-3">
+                            <label for="validationTooltip01">用户名</label>
+                            <input type="text" class="form-control" id="validationTooltip01" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="validationTooltip02">昵称</label>
+                            <input type="text" class="form-control" id="validationTooltip02" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-6 mb-3">
+                            <label for="validationTooltip03">年龄</label>
+                            <input type="text" class="form-control" id="validationTooltip03" required>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="validationTooltip04">性别</label>
+                            <select class="custom-select" id="validationTooltip04" required>
+                                <option>男</option>
+                                <option>女</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="validationTooltip05">学院</label>
+                            <input type="text" class="form-control" id="validationTooltip05" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-6 mb-3">
+                            <label for="validationTooltip06">关键词</label>
+                            <input type="text" class="form-control" id="validationTooltip06" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="validationTooltip07">喜好</label>
+                            <input type="text" class="form-control" id="validationTooltip07" required>
+                        </div>
+                    </div>
+
+
+                </div>
+                <button class="btn btn-primary" id="subbut">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
 </html>

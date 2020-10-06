@@ -23,4 +23,7 @@
 	<select id="searchNikeName" resultType="Userinfo" parameterType="String">
 		select * from jianjia.userinfo where nikename like #{nikename}
 	</select>
+	<select id="updateUserInfo">
+		update jianjia.userinfo set age=#{age},nikename=#{nikename},sex=#{sex},department=#{department},profilepicture=#{profilepicture},"key"=#{key},"like"=#{like} where username=#{username}
+	</select>
 </mapper>
