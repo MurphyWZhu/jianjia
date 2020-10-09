@@ -1,5 +1,6 @@
 package com.baima.jianjia.controller;
 
+
 import com.baima.jianjia.pojo.User;
 import com.baima.jianjia.pojo.Userinfo;
 import com.baima.jianjia.service.UserserviceImpl;
@@ -28,6 +29,6 @@ public class UpdateUserinfoController {
         }
         Userinfo userinfo = userService.getUserInfo(user);
         userService.updateUserInfo(userinfo.username, age, nikename, sex, department, profilepicture, key, like);
-        return "hello";
+        return "{\"info\":\"修改成功\",\"code\":0}";
     }
 }
