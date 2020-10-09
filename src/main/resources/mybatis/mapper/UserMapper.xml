@@ -26,4 +26,7 @@
 	<select id="updateUserInfo">
 		update jianjia.userinfo set age=#{age},nikename=#{nikename},sex=#{sex},department=#{department},profilepicture=#{profilepicture},"key"=#{key},"like"=#{like} where username=#{username}
 	</select>
+	<select id="getLikeList" resultType="String" parameterType="String">
+		select likeuser from jianjia.userlike where username=#{username}
+	</select>
 </mapper>

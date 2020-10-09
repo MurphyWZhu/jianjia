@@ -17,4 +17,5 @@ public interface Userservice{
 							   String sex, String department,
 							   String profilepicture, String key,
 							   String like);
+	public List<String> getLikeList(String username);
 }

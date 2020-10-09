@@ -49,4 +49,7 @@ public class UserserviceImpl implements Userservice{
 							   String like){
 		userMapper.updateUserInfo(username, age, nikename, sex, department, profilepicture, key, like);
 	}
+	public List<String> getLikeList(String username){
+		return userMapper.getLikeList(username);
+	}
 }

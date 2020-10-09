@@ -23,4 +23,5 @@ public interface UserMapper{
 							   @Param("sex")String sex, @Param("department")String department,
 							   @Param("profilepicture")String profilepicture, @Param("key")String key,
 							   @Param("like")String like);
+	public List<String> getLikeList(String username);
 }
