@@ -18,4 +18,6 @@ public interface Userservice{
 							   String profilepicture, String key,
 							   String like);
 	public List<String> getLikeList(String username);
+	public void toLike(String username,String likeuser);
+	public void rmLike(String username,String likeuser);
 }

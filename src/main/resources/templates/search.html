@@ -8,13 +8,46 @@
     <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
     <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('button').click(function () {
+                if($(this).hasClass("aaa")){
+                    $.post("/rmlike", "likeuser=" + $(this)[0].value, function (data, status) {
+                        //var rr = $.parseJSON(data);
+                    });
+                    $(this).text("喜欢");
+                    $(this).addClass("bbb").removeClass("aaa");
+                }
+                else if($(this).hasClass("bbb")){
+                    $.post("/tolike", "likeuser=" + $(this)[0].value, function (data, status) {
+                        //var rr = $.parseJSON(data);
+                    });
+                    $(this).text("取消喜欢");
+                    $(this).addClass("aaa").removeClass("bbb");
+                }
+                
+            });
+        });
+    </script>
 </head>
 
 <body style="background: url(https://jianjia-1253347887.cos.ap-nanjing.myqcloud.com/abcd1.jpg);background-size: 100%;">
     <div class="container">
-        <div class="container mt-3">
+        <div class="container">
             <form method="post" th:action="@{/tosearch}" class="row">
-                <input name="key" id="key" type="text" class="form-control col-md-6">
+                <input name="key" id="key" type="text" class="form-control col-md-5">
+                <select class="form-control col-md-1" id="sel1">
+                    <option>不限</option>
+                    <option>男</option>
+                    <option>女</option>
+                </select>
+                <select class="form-control col-md-1" id="sel1">
+                    <option>不限</option>
+                    <option>网络工程学院</option>
+                    <option>信息工程学院</option>
+                    <option>生物工程学院</option>
+                    <option>经济管理学院</option>
+                </select>
                 <button type="submit" class="btn btn-primary col-md-2">搜索</button>
             </form>
         </div>
@@ -22,10 +55,17 @@
             <div class="container row">
                 <img class="col-2"
                     src="https://dss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1986451467,394304688&fm=26&gp=0.jpg">
-                <div class="col-9">
+                <div class="col-6">
                     <h3 th:text="${userinfo.nikename}"></h3>
                     <p th:text="${userinfo.age}"></p>
                     <p th:text="${userinfo.sex}"></p>
+                    <p th:text="${userinfo.likeit}"></p>
+                </div>
+                <div class="col-3">
+                    <button type="button" class="btn-primary aaa" th:if="${userinfo.likeit}"
+                        th:value="${userinfo.username}">取消喜欢</button>
+                    <button type="button" class="btn-primary bbb" th:if="${!userinfo.likeit}"
+                        th:value="${userinfo.username}">喜欢</button>
                 </div>
             </div>
         </div>

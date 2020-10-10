@@ -24,4 +24,6 @@ public interface UserMapper{
 							   @Param("profilepicture")String profilepicture, @Param("key")String key,
 							   @Param("like")String like);
 	public List<String> getLikeList(String username);
+	public void toLike(@Param("username")String username,@Param("likeuser")String likeuser);
+	public void rmLike(@Param("username")String username,@Param("likeuser")String likeuser);
 }

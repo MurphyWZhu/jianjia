@@ -18,4 +18,5 @@ public class Userinfo {
     public String profilepicture;
     public String key;
     public String like;
+    public boolean likeit;
 }

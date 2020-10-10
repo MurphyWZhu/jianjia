@@ -29,4 +29,10 @@
 	<select id="getLikeList" resultType="String" parameterType="String">
 		select likeuser from jianjia.userlike where username=#{username}
 	</select>
+	<select id="toLike">
+		insert into jianjia.userlike values (#{username},#{likeuser})
+	</select>
+	<select id="rmLike">
+		delete from jianjia.userlike where username=#{username} and likeuser=#{likeuser}
+	</select>
 </mapper>

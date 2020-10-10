@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -39,5 +40,29 @@ public class LikeController {
         }
         model.addAttribute("likelist", likeUserInfoList);
         return new ModelAndView("likelist");
+    }
+    @PostMapping(value = "/tolike")
+    public String toLike(String likeuser){
+        Subject currentSubject = SecurityUtils.getSubject();
+        Session session = currentSubject.getSession();
+        User user = (User) session.getAttribute("loginUser");
+        if (user == null) {
+            System.out.println("no login");
+            return null;
+        }
+        userServer.toLike(user.username, likeuser);
+        return "hello";
+    }
+    @PostMapping(value = "/rmlike")
+    public String rmLike(String likeuser){
+        Subject currentSubject = SecurityUtils.getSubject();
+        Session session = currentSubject.getSession();
+        User user = (User) session.getAttribute("loginUser");
+        if (user == null) {
+            System.out.println("no login");
+            return null;
+        }
+        userServer.rmLike(user.username, likeuser);
+        return "hello";
     }
 }

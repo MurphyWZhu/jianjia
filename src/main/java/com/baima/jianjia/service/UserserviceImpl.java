@@ -52,4 +52,10 @@ public class UserserviceImpl implements Userservice{
 	public List<String> getLikeList(String username){
 		return userMapper.getLikeList(username);
 	}
+	public void toLike(String username,String likeuser){
+		userMapper.toLike(username, likeuser);
+	}
+	public void rmLike(String username,String likeuser){
+		userMapper.rmLike(username, likeuser);
+	}
 }
