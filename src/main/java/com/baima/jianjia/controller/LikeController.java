@@ -2,11 +2,9 @@ package com.baima.jianjia.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import com.baima.jianjia.pojo.User;
 import com.baima.jianjia.pojo.Userinfo;
 import com.baima.jianjia.service.UserserviceImpl;
-
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
@@ -17,7 +15,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 @RestController

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="us" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <title>用户信息</title>
     <meta charset="utf-8">
@@ -10,12 +11,12 @@
     <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script>
         $(document).ready(function () {
-            $("#subbut").click(function(){
-                $.post("/updateuserinfo","age="+$("#validationTooltip03").val()+"&nikename="+$("#validationTooltip02").val()+"&sex="+$("#validationTooltip04").val()+"&department="+$("#validationTooltip05").val()+"&profilepicture=https://aaa.a.png"+"&key="+$("#validationTooltip06").val()+"&like="+$("#validationTooltip07").val(),function(data,status){
-                    var rr = $.parseJSON(data);
-				    if(status=="success"){
-                        if(rr.code==0){
-                            $("#div2").append('<div class="alert alert-success alert-dismissible fade show" style="position:relative;top:10px;right:10px"><button type="button" class="close" data-dismiss="alert">&times;</button>'+rr.info+'</div>');
+            $("#subbut").click(function () {
+                $.post("/updateuserinfo", "age=" + $("#validationTooltip03").val() + "&nikename=" + $("#validationTooltip02").val() + "&sex=" + $("#validationTooltip04").val() + "&department=" + $("#validationTooltip05").val() + "&profilepicture=https://aaa.a.png" + "&key=" + $("#validationTooltip06").val() + "&like=" + $("#validationTooltip07").val(), function (data, status) {
+                    var rr = $.parseJSON(data);
+                    if (status == "success") {
+                        if (rr.code == 0) {
+                            $("#div2").append('<div class="alert alert-success alert-dismissible fade show" style="position:relative;top:10px;right:10px"><button type="button" class="close" data-dismiss="alert">&times;</button>' + rr.info + '</div>');
                         }
                     }
                 });
@@ -40,63 +41,65 @@
     </script>
 
 </head>
+
 <body style="background: url(https://jianjia-1253347887.cos.ap-nanjing.myqcloud.com/abcd1.jpg);background-size: 100%;">
-<div class="container">
-    <div id="div2" style="position:fixed;top:10px;right:10px;z-index:100000;"></div>
-    <div class="card">
-        <h2 class="card-title" style="text-align: center">个人信息</h2>
-        <div class="card-body">
-            <div>
-                <div class="needs-validation" novalidate>
-                    <div class="form-row">
-                        <div class="col-md-6 mb-3">
-                            <label for="validationTooltip01">用户名</label>
-                            <input type="text" class="form-control" id="validationTooltip01" required>
+    <div class="container">
+        <div id="div2" style="position:fixed;top:10px;right:10px;z-index:100000;"></div>
+        <div class="card">
+            <h2 class="card-title" style="text-align: center">个人信息</h2>
+            <div class="card-body">
+                <div>
+                    <div class="needs-validation" novalidate>
+                        <div class="form-row">
+                            <div class="col-md-6 mb-3">
+                                <label for="validationTooltip01">用户名</label>
+                                <input type="text" class="form-control" id="validationTooltip01" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="validationTooltip02">昵称</label>
+                                <input type="text" class="form-control" id="validationTooltip02" required>
+                            </div>
                         </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="validationTooltip02">昵称</label>
-                            <input type="text" class="form-control" id="validationTooltip02" required>
+                        <div class="form-row">
+                            <div class="col-md-6 mb-3">
+                                <label for="validationTooltip03">年龄</label>
+                                <input type="text" class="form-control" id="validationTooltip03" required>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label for="validationTooltip04">性别</label>
+                                <select class="custom-select" id="validationTooltip04" required>
+                                    <option>男</option>
+                                    <option>女</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label for="validationTooltip05">学院</label>
+                                <select class="custom-select" id="validationTooltip05" required>
+                                    <option>网络工程学院</option>
+                                    <option>信息工程学院</option>
+                                    <option>生物工程学院</option>
+                                    <option>经济管理学院</option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="col-md-6 mb-3">
-                            <label for="validationTooltip03">年龄</label>
-                            <input type="text" class="form-control" id="validationTooltip03" required>
+                        <div class="form-row">
+                            <div class="col-md-6 mb-3">
+                                <label for="validationTooltip06">关键词</label>
+                                <input type="text" class="form-control" id="validationTooltip06" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="validationTooltip07">喜好</label>
+                                <input type="text" class="form-control" id="validationTooltip07" required>
+                            </div>
                         </div>
-                        <div class="col-md-3 mb-3">
-                            <label for="validationTooltip04">性别</label>
-                            <select class="custom-select" id="validationTooltip04" required>
-                                <option>男</option>
-                                <option>女</option>
-                            </select>
-                        </div>
-                        <div class="col-md-3 mb-3">
-                            <label for="validationTooltip05">学院</label>
-                            <select class="custom-select" id="validationTooltip05" required>
-                                <option>网络工程学院</option>
-                                <option>信息工程学院</option>
-                                <option>生物工程学院</option>
-                                <option>经济管理学院</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="col-md-6 mb-3">
-                            <label for="validationTooltip06">关键词</label>
-                            <input type="text" class="form-control" id="validationTooltip06" required>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="validationTooltip07">喜好</label>
-                            <input type="text" class="form-control" id="validationTooltip07" required>
-                        </div>
-                    </div>
 
 
+                    </div>
+                    <button class="btn btn-primary" id="subbut">提交</button>
                 </div>
-                <button class="btn btn-primary" id="subbut">提交</button>
             </div>
         </div>
     </div>
-</div>
 </body>
+
 </html>

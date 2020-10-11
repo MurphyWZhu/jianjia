@@ -31,8 +31,9 @@ public class UserInfoController {
         System.out.println(user.username);
         return userService.getUserInfo(user);
     }
-    @RequestMapping(value = "userinfo")
+    @RequestMapping(value = "subuserinfo")
     public ModelAndView UserInfo(){
-        return new ModelAndView("userinfo");
+        return new ModelAndView("subuserinfo");
     }
+    
 }

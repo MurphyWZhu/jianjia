@@ -8,11 +8,9 @@ import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class SearchUserListController {
     @Autowired
     UserserviceImpl userService;
-    @PostMapping(value = "/tosearch")
+    @RequestMapping(value = "/tosearch")
     public ModelAndView searchUserList(String key, String sexfilter, String departmentfilter,Model model){
         if(sexfilter.contains("不限")){
             sexfilter="%";
@@ -60,9 +58,9 @@ public class SearchUserListController {
         model.addAttribute("userinfoList",userinfoList);
         return new ModelAndView("subsearch");
     }
-    @RequestMapping(value="/search", method=RequestMethod.GET)
+    @RequestMapping(value="/subsearchbox", method=RequestMethod.GET)
     public ModelAndView searchpage() {
-        return new ModelAndView("search");
+        return new ModelAndView("subsearchbox");
     }
     
 }

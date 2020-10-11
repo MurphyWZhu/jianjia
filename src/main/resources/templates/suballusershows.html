@@ -1,0 +1,16 @@
+<div class="container">
+    <div class="card" th:each="usershow:${usershowinfo}">
+        <div class="card-header">
+            <h2 th:text="${usershow.userShow.username}"></h2>
+        </div>
+        <div class="card-body">
+            <p th:text="${usershow.userShow.showdata}"></p>
+        </div>
+        <div class="card-footer container">
+            <div class="row">
+                <button type="button" class="btn btn-secondary col-2 offset-4">点赞</button>
+                <button type="button" class="btn btn-secondary col-2">评论</button>
+            </div>
+        </div>
+    </div>
+</div>

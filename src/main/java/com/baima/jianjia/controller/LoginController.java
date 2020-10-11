@@ -15,9 +15,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 @RestController
 public class LoginController{
-	@RequestMapping("/login")
+	@RequestMapping("/sublogin")
 	public ModelAndView Hellologin(){
-		return new ModelAndView("login");
+		return new ModelAndView("sublogin");
 	}
 	@PostMapping(value = "/tologin")
 	public String login(String username,String password){

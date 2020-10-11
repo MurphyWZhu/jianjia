@@ -1,0 +1,14 @@
+<div class="container">
+    <form th:action="@{/postshow}">
+        <div class="form-group">
+            <label for="comment">发条动态</label>
+            <textarea class="form-control" rows="5" id="showdata"></textarea>
+        </div>
+        <div class="form-check">
+            <label class="form-check-label">
+                <input type="checkbox" class="form-check-input" id="ispublic" value="">公开
+            </label>
+        </div>
+        <button type="button" class="btn btn-primary postshowbutton" id="postshowbutton">发送</button>
+    </form>
+</div>
