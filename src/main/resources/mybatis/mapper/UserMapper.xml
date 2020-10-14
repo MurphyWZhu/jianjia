@@ -24,7 +24,7 @@
 		select * from jianjia.userinfo where nikename like #{nikename} and sex like #{sexfilter} and department like #{departmentfilter}
 	</select>
 	<select id="updateUserInfo">
-		update jianjia.userinfo set age=#{age},nikename=#{nikename},sex=#{sex},department=#{department},profilepicture=#{profilepicture},"key"=#{key},"like"=#{like} where username=#{username}
+		update jianjia.userinfo set age=#{age},nikename=#{nikename},sex=#{sex},department=#{department},"key"=#{key},"like"=#{like} where username=#{username}
 	</select>
 	<select id="getLikeList" resultType="String" parameterType="String">
 		select likeuser from jianjia.userlike where username=#{username}
@@ -39,12 +39,15 @@
 		insert into jianjia.usershow (username,showdata,ispublic,timedate) values (#{username},#{showdata},#{ispublic},#{timedate})
 	</select>
 	<select id="getAllUserShows" resultType="UserShow">
-		select username,showdata,timedate from jianjia.usershow where ispublic=true
+		select username,showdata,timedate from jianjia.usershow where ispublic=true order by id desc
 	</select>
 	<select id="getUserShows" resultType="UserShow" parameterType="String">
-		select username,showdata,timedate from jianjia.usershow where ispublic=true and username=#{username}
+		select username,showdata,timedate from jianjia.usershow where ispublic=true and username=#{username}  order by id desc
 	</select>
 	<select id="getSelfShows" resultType="UserShow" parameterType="String">
-		select username,showdata,timedate from jianjia.usershow where username=#{username}
+		select username,showdata,timedate from jianjia.usershow where username=#{username} order by id desc
+	</select>
+	<select id="updateUserPicture">
+		update jianjia.userinfo set profilepicture=#{url} where username=#{username}
 	</select>
 </mapper>

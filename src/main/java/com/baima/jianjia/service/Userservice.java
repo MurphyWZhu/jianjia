@@ -1,5 +1,6 @@
 package com.baima.jianjia.service;
 
+import java.io.File;
 import java.util.List;
 
 import com.baima.jianjia.pojo.User;
@@ -12,6 +13,7 @@ public interface Userservice{
 	public User queryUserByName(String name);
 	public void addUser(User user);
 	public Userinfo getUserInfo(User user);
+	public Userinfo getUserInfobyName(String username);
 	public List<Userinfo> searchKey(String key,String sexfilter,String departmentfilter);
 	public List<Userinfo> searchNikeName(String nikename,String sexfilter,String departmentfilter);
 	public void updateUserInfo(String username, int age, String nikename,
@@ -25,4 +27,5 @@ public interface Userservice{
 	public List<UserShow> getAllUserShows();
 	public List<UserShow> getSelfShows(String username);
 	public List<UserShow> getUserShows(String username);
+	public void updateUserpicture(File file,String username,String filetype);
 }

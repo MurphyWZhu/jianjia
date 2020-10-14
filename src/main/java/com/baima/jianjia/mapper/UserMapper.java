@@ -49,4 +49,6 @@ public interface UserMapper {
 	public List<UserShow> getSelfShows(String username);
 
 	public List<UserShow> getUserShows(String username);
+
+	public void updateUserPicture(@Param("username")String username,@Param("url")String url);
 }

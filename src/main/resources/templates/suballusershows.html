@@ -1,15 +1,42 @@
-<div class="container">
-    <div class="card" th:each="usershow:${usershowinfo}">
+<!-- <div class="container">
+    <div class="card" th:each="usershow:${uShowandInfos}">
         <div class="card-header">
-            <h2 th:text="${usershow.userShow.username}"></h2>
+            <h2 th:text="${usershow.username}"></h2>
         </div>
         <div class="card-body">
-            <p th:text="${usershow.userShow.showdata}"></p>
+            <p th:text="${usershow.showdata}"></p>
         </div>
         <div class="card-footer container">
             <div class="row">
                 <button type="button" class="btn btn-secondary col-2 offset-4">点赞</button>
                 <button type="button" class="btn btn-secondary col-2">评论</button>
+            </div>
+        </div>
+    </div>
+</div> -->
+<div class="container">
+    <div class="card" th:each="userinfo:${uShowandInfos}">
+        <div class="card-body row">
+            <img class="col-2 userinfodiv" th:src="${userinfo.profilepicture}">
+            <div class="col-6">
+                <div class="row">
+                    <h2 th:text="${userinfo.nikename}"></h2>
+                    <i class="fa fa-mars" aria-hidden="true" th:if="${userinfo.sex eq '男'}"></i>
+                    <i class="fa fa-venus" aria-hidden="true" th:if='${userinfo.sex eq "女"}'></i>
+                </div>
+                <div class="row">
+                    <p th:text="${userinfo.timedate}"></p>
+    
+                </div>
+                <div>
+                    <p th:text=${userinfo.showdata}></p>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="row">
+                <button type="button" class="btn btn-secondary col-2 offset-4">点赞</button>
+                    <button type="button" class="btn btn-secondary col-2">评论</button>
             </div>
         </div>
     </div>

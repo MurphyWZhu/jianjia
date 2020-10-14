@@ -1,9 +1,11 @@
 package com.baima.jianjia.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.baima.jianjia.pojo.User;
 import com.baima.jianjia.pojo.UserShow;
+import com.baima.jianjia.pojo.Userinfo;
 import com.baima.jianjia.service.UserserviceImpl;
 
 import org.apache.shiro.SecurityUtils;
@@ -17,8 +19,19 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 
+
+
 @RestController
 public class UsershowController {
+    public class userShowandInfo{
+        public String username;
+        public String nikename;
+        public String profilepicture;
+        public String sex;
+        public String department;
+        public String showdata;
+        public String timedate;
+    }
     @Autowired
     UserserviceImpl userService;
     @PostMapping(value = "/postshow")
@@ -43,7 +56,20 @@ public class UsershowController {
     @PostMapping(value = "/getallusershows")
     public ModelAndView getAllUserShows(Model model){
         List<UserShow> allUserShows = userService.getAllUserShows();
-        model.addAttribute("allUserShows",allUserShows);
+        List<userShowandInfo> uShowandInfos = new ArrayList<>();
+        for (UserShow userShow : allUserShows) {
+            userShowandInfo uShowandInfo = new userShowandInfo();
+            uShowandInfo.username=userShow.username;
+            uShowandInfo.showdata=userShow.showdata;
+            uShowandInfo.timedate=userShow.timedate;
+            Userinfo userinfo = userService.getUserInfobyName(userShow.username);
+            uShowandInfo.nikename=userinfo.nikename;
+            uShowandInfo.profilepicture=userinfo.profilepicture;
+            uShowandInfo.department=userinfo.department;
+            uShowandInfo.sex=userinfo.sex;
+            uShowandInfos.add(uShowandInfo);
+        }
+        model.addAttribute("uShowandInfos",uShowandInfos);
         return new ModelAndView("suballusershows");
     }
     @PostMapping(value = "/getselfshows")
@@ -58,6 +84,10 @@ public class UsershowController {
         }else{
             username = user.username;
         }
+        Userinfo userinfo = userService.getUserInfo(user);
+        List<UserShow> userShows = userService.getSelfShows(username);
+        model.addAttribute("userShows", userShows);
+        model.addAttribute("userinfo", userinfo);
         return new ModelAndView("subselfshow");
     }
     @PostMapping(value = "/getusershows")

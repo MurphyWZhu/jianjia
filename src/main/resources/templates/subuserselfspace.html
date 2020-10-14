@@ -1,0 +1,99 @@
+<div class="container">
+    <div class="row jumbotron">
+        <img th:src="${userinfo.profilepicture}" class="col-2" data-toggle="modal" data-target="#myModal1">
+        <div class="modal fade" id="myModal1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <!-- 模态框头部 -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">修改头像</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <!-- 模态框主体 -->
+                    <div class="modal-body">
+                        <form method="post" action="/updateprofilepicture" enctype="multipart/form-data">
+                            <input type="file" name="file"><br>
+                            <input type="submit" value="提交">
+                        </form>
+                    </div>
+
+                    <!-- 模态框底部 -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-5">
+            <h2 th:text="${userinfo.nikename}"></h2>
+            <p>开开心心每一天</p>
+            <button type=button class="btn btn-secondary" id="updateselfuserinfobutton" data-toggle="modal" data-target="#myModal2">修改资料</button>
+            <div class="modal fade" id="myModal2">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+    
+                        <!-- 模态框头部 -->
+                        <div class="modal-header">
+                            <h4 class="modal-title">修改资料</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+    
+                        <!-- 模态框主体 -->
+                        <div class="modal-body" id="userslefspacemodalmaindiv">
+                            
+                        </div>
+    
+                        <!-- 模态框底部 -->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                        </div>
+    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="userspacemaindiv">
+        <div class="container">
+            <div class="card">
+                <div class="card-header">发条动态</div>
+                <div class="card-body">
+                    <form th:action="@{/postshow}">
+                        <div class="form-group">
+                            <textarea class="form-control" rows="5" id="showdata"></textarea>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input" id="ispublic" value="">公开
+                            </label>
+                        </div>
+                        <button type="button" class="btn btn-primary postshowbutton" id="postshowbutton">发送</button>
+                    </form>
+                </div>
+                
+            </div>
+            <div class="card" th:each="usershow:${userShows}">
+                <div class="card-body row">
+                    <div class="col-6">
+                        <div class="row">
+                            <p th:text="${usershow.timedate}"></p>
+            
+                        </div>
+                        <div>
+                            <p th:text=${usershow.showdata}></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="row">
+                        <button type="button" class="btn btn-secondary col-2 offset-4">点赞</button>
+                            <button type="button" class="btn btn-secondary col-2">评论</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

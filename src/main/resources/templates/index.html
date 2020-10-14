@@ -18,28 +18,50 @@
                     $("#maindiv").html(data);
                 });
             });
-            $("#userinfobutton").click(function () {
-                $.get("/subuserinfo", "", function (data, status) {
+            $("#userselfspacebutton").click(function () {
+                $.get("/userselfspace", "", function (data, status) {
                     $("#maindiv").html(data);
-                    $.post("/getuserinfo", "", function (data, status) {
-                        if (data == "") {
-                            $(window).attr('location', '/login');
-                        } else {
-                            var rr = $.parseJSON(JSON.stringify(data));
-                            $("#validationTooltip01").val(rr.username);
-                            $("#validationTooltip02").val(rr.nikename);
-                            $("#validationTooltip03").val(rr.age);
-                            $("#validationTooltip04").val(rr.sex);
-                            $("#validationTooltip05").val(rr.department);
-                            $("#validationTooltip06").val(rr.key);
-                            $("#validationTooltip07").val(rr.like);
-                        }
+                    $("#updateselfuserinfobutton").click(function () {
+                        $.get("/subuserinfo", "", function (data, status) {
+                            $("#userslefspacemodalmaindiv").html(data);
+                            $("#subuserinfosubut").click(function () {
+                                $.post("/updateuserinfo", "age=" + $("#validationTooltip03").val() + "&nikename=" + $("#validationTooltip02").val() + "&sex=" + $("#validationTooltip04").val() + "&department=" + $("#validationTooltip05").val() + "&profilepicture=https://aaa.a.png" + "&key=" + $("#validationTooltip06").val() + "&like=" + $("#validationTooltip07").val(), function (data, status) {
+                                    var rr = $.parseJSON(data);
+                                    if (status == "success") {
+                                        if (rr.code == 0) {
+                                            //$("#div2").append('<div class="alert alert-success alert-dismissible fade show" style="position:relative;top:10px;right:10px"><button type="button" class="close" data-dismiss="alert">&times;</button>' + rr.info + '</div>');
+                                        }
+                                    }
+                                });
+                            });
+                        });
                     });
                 });
             });
             $("#loginbutton").click(function () {
                 $.get("/sublogin", "", function (data, status) {
                     $("#maindiv").html(data);
+                    $("#signinbut").click(function () {
+                        var reg = /^\s*$/;
+                        //返回值为true表示不是空字符串
+                        value = $("#username-input-mo")[0].value;
+                        if (value != null && value != undefined && !reg.test(value)) {
+                            $.post("/tosignup", "username=" + $("#username-input-mo")[0].value + "&password=" + $("#password-input-mo")[0].value, function (data, status) {
+                                var rr = $.parseJSON(data);
+                                if (status == "success") {
+                                    if (rr.code == 0) {
+                                        $("#signininfobox").append('<div class="alert alert-success alert-dismissible fade show" style="position:relative;top:10px;right:10px"><button type="button" class="close" data-dismiss="alert">&times;</button>' + rr.info + '</div>');
+                                    }
+                                    else {
+                                        $("#signininfobox").append('<div class="alert alert-success alert-dismissible fade show" style="position:relative;top:10px;right:10px"><button type="button" class="close" data-dismiss="alert">&times;</button>' + rr.info + '</div>');
+                                    }
+                                }
+                            });
+                        }
+                        else {
+                            $("#signininfobox").append('<div class="alert alert-success alert-dismissible fade show" style="position:relative;top:10px;right:10px"><button type="button" class="close" data-dismiss="alert">&times;</button>格式错误</div>');
+                        }
+                    });
                 })
             });
             $("#maindiv").on("click", "#tologinbutton", function () {
@@ -153,7 +175,7 @@
                         我的
                     </a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" id="userinfobutton">个人信息</a>
+                        <a class="dropdown-item" id="userselfspacebutton">个人空间</a>
                         <a class="dropdown-item" id="indexpostshowbutton">发条动态</a>
                         <a class="dropdown-item" th:href="@{/logout}">注销</a>
                         <a class="dropdown-item" href="#">喜欢的人</a>
