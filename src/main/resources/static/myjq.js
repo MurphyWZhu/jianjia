@@ -4,6 +4,11 @@ $(document).ready(function () {
             $("#maindiv").html(data);
         });
     });
+    $("#logoutbutton").click(function(){
+        $.post("/logout","",function(data,status){
+            $(window).attr('location', '/');
+        });
+    });
     $("#userselfspacebutton").click(function () {
         $.get("/userselfspace", "", function (data, status) {
             $("#maindiv").html(data);
@@ -15,7 +20,7 @@ $(document).ready(function () {
                             var rr = $.parseJSON(data);
                             if (status == "success") {
                                 if (rr.code == 0) {
-                                    //$("#div2").append('<div class="alert alert-success alert-dismissible fade show" style="position:relative;top:10px;right:10px"><button type="button" class="close" data-dismiss="alert">&times;</button>' + rr.info + '</div>');
+                                    $("#maininfobox").append('<div class="alert alert-success alert-dismissible fade show" style="position:relative;top:10px;right:10px"><button type="button" class="close" data-dismiss="alert">&times;</button>' + rr.info + '</div>');
                                 }
                             }
                         });
@@ -28,24 +33,26 @@ $(document).ready(function () {
         $.get("/sublogin", "", function (data, status) {
             $("#maindiv").html(data);
             $("#signinbut").click(function () {
-                var reg = /^\s*$/;
+                var reg = /^[\w]+$/;
+                var pwdreg = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,}$/;
                 //返回值为true表示不是空字符串
                 value = $("#username-input-mo")[0].value;
-                if (value != null && value != undefined && !reg.test(value)) {
+                valuepwd = $("#password-input-mo")[0].value;
+                if (reg.test(value) && pwdreg.test(valuepwd)) {
                     $.post("/tosignup", "username=" + $("#username-input-mo")[0].value + "&password=" + $("#password-input-mo")[0].value, function (data, status) {
                         var rr = $.parseJSON(data);
                         if (status == "success") {
                             if (rr.code == 0) {
-                                $("#signininfobox").append('<div class="alert alert-success alert-dismissible fade show" style="position:relative;top:10px;right:10px"><button type="button" class="close" data-dismiss="alert">&times;</button>' + rr.info + '</div>');
+                                $("#maininfobox").append('<div class="alert alert-success alert-dismissible fade show" style="position:relative;top:10px;right:10px"><button type="button" class="close" data-dismiss="alert">&times;</button>' + rr.info + '</div>');
                             }
                             else {
-                                $("#signininfobox").append('<div class="alert alert-success alert-dismissible fade show" style="position:relative;top:10px;right:10px"><button type="button" class="close" data-dismiss="alert">&times;</button>' + rr.info + '</div>');
+                                $("#maininfobox").append('<div class="alert alert-success alert-dismissible fade show" style="position:relative;top:10px;right:10px"><button type="button" class="close" data-dismiss="alert">&times;</button>' + rr.info + '</div>');
                             }
                         }
                     });
                 }
                 else {
-                    $("#signininfobox").append('<div class="alert alert-success alert-dismissible fade show" style="position:relative;top:10px;right:10px"><button type="button" class="close" data-dismiss="alert">&times;</button>格式错误</div>');
+                    $("#maininfobox").append('<div class="alert alert-success alert-dismissible fade show" style="position:relative;top:10px;right:10px"><button type="button" class="close" data-dismiss="alert">&times;</button>格式错误</div>');
                 }
             });
         })
@@ -55,11 +62,11 @@ $(document).ready(function () {
             var rr = $.parseJSON(data);
             if (status == "success") {
                 if (rr.code == 0) {
-                    $("#div1").append('<div class="alert alert-success alert-dismissible fade show" style="position:relative;top:10px;right:10px"><button type="button" class="close" data-dismiss="alert">&times;</button>' + rr.info + '</div>');
-                    $(window).attr('location', '/index');
+                    $("#maininfobox").append('<div class="alert alert-success alert-dismissible fade show" style="position:relative;top:10px;right:10px"><button type="button" class="close" data-dismiss="alert">&times;</button>' + rr.info + '</div>');
+                    $(window).attr('location', 'index');
                 }
                 else {
-                    $("#div1").append('<div class="alert alert-success alert-dismissible fade show" style="position:relative;top:10px;right:10px"><button type="button" class="close" data-dismiss="alert">&times;</button>' + rr.info + '</div>');
+                    $("#maininfobox").append('<div class="alert alert-success alert-dismissible fade show" style="position:relative;top:10px;right:10px"><button type="button" class="close" data-dismiss="alert">&times;</button>' + rr.info + '</div>');
                 }
             }
         });
@@ -102,6 +109,7 @@ $(document).ready(function () {
                     $("#postshowcommentbutton").click(function () {
                         $.post("/postcomment", "showid=" + $(this).val() + "&comment=" + $("#commentdatabox").val(), function (data, status) {
                             if (status == "success") {
+                                $("#maininfobox").append('<div class="alert alert-success alert-dismissible fade show" style="position:relative;top:10px;right:10px"><button type="button" class="close" data-dismiss="alert">&times;</button>发送成功</div>');
                                 $('#myModal-showcomment').modal('hide');
                             }
                         });

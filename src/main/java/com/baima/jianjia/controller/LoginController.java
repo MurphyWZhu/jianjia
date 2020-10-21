@@ -33,7 +33,7 @@ public class LoginController{
 			return "{\"info\":\"密码错误\",\"code\":2}";
 		}
 	}
-	@RequestMapping("/logout")
+	@PostMapping("/logout")
 	public ModelAndView logout() {
 		Subject subject = SecurityUtils.getSubject();
 		subject.logout();

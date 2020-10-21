@@ -28,7 +28,7 @@
     <div class="jumbotron text-center" style="margin-bottom:0;background-color: white">
         <h1>蒹葭</h1>
     </div>
-    <div id="div1" style="position:fixed;top:10px;right:10px;z-index:100000;"></div>
+    <div id="maininfobox" style="position:fixed;top:10px;right:10px;z-index:100000;"></div>
     <nav class="navbar navbar-expand-sm bg-light navbar-light" style="color: rgb(196, 68, 68)">
         <div style="margin:0 auto;">
             <ul class="navbar-nav fa-ul">
@@ -44,14 +44,6 @@
                     <i class="fa-li fa fa-star" aria-hidden="true"></i>
                     <a class="nav-link" id="usershows">校园动态</a>
                 </li>
-                <li class="nav-item" style="margin: 0 50px;">
-                    <i class="fa-li fa fa-gamepad"></i>
-                    <a class="nav-link" th:href="@{/index}">游戏</a>
-                </li>
-                <li class="nav-item" style="margin: 0 50px;">
-                    <i class="fa-li fa fa-book"></i>
-                    <a class="nav-link" th:href="@{/index}">学习</a>
-                </li>
                 <li class="nav-item" style="margin: 0 50px;" th:if="${session.loginUser==null}">
                     <i class="fa-li fa fa-toggle-right"></i>
                     <a class="nav-link" id="loginbutton">登录</a>
@@ -64,7 +56,7 @@
                     <div class="dropdown-menu">
                         <a class="dropdown-item" id="userselfspacebutton">个人空间</a>
                         <a class="dropdown-item" id="indexpostshowbutton">发条动态</a>
-                        <a class="dropdown-item" th:href="@{/logout}">注销</a>
+                        <a class="dropdown-item" id="logoutbutton">注销</a>
                         <a class="dropdown-item" href="#">喜欢的人</a>
                     </div>
                 </li>
