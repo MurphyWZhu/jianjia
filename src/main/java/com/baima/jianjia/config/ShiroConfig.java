@@ -22,9 +22,9 @@ public class ShiroConfig{
         /*
         * 设置网页的权限
         */
-        filterMap.put("/1.js", "authc");
+        filterMap.put("/postcomment", "authc");
         bean.setFilterChainDefinitionMap(filterMap);
-        bean.setLoginUrl("/login");
+        bean.setLoginUrl("/index");
         return bean;
     }
     @Bean

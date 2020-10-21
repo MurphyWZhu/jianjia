@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.UUID;
 
 import com.baima.jianjia.mapper.UserMapper;
+import com.baima.jianjia.pojo.Showcomment;
 import com.baima.jianjia.pojo.User;
 import com.baima.jianjia.pojo.UserShow;
 import com.baima.jianjia.pojo.Userinfo;
@@ -79,6 +80,12 @@ public class UserserviceImpl implements Userservice{
 		String timedate = simpleDateFormat.format(date);
 		userMapper.postShow(username, showdata, ispublic, timedate);
 	}
+	public void postComment(String username,String comment,int showid){
+		Date date = new Date();
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String timedate = simpleDateFormat.format(date);
+		userMapper.postComment(username, comment, showid, timedate);
+	}
 	public List<UserShow> getAllUserShows(){
 		return userMapper.getAllUserShows();
 	}
@@ -87,6 +94,9 @@ public class UserserviceImpl implements Userservice{
 	}
 	public List<UserShow> getSelfShows(String username){
 		return userMapper.getSelfShows(username);
+	}
+	public List<Showcomment> getShowcomments(int showid){
+		return userMapper.getShowcomments(showid);
 	}
 	public void updateUserpicture(File file,String username,String filetype){
 		String secretId = "AKIDBXfZCZFQxFZgaDcx0meNSFkOoxoeRcuw";

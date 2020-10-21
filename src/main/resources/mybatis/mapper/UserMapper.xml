@@ -39,15 +39,21 @@
 		insert into jianjia.usershow (username,showdata,ispublic,timedate) values (#{username},#{showdata},#{ispublic},#{timedate})
 	</select>
 	<select id="getAllUserShows" resultType="UserShow">
-		select username,showdata,timedate from jianjia.usershow where ispublic=true order by id desc
+		select username,showdata,timedate,id from jianjia.usershow where ispublic=true order by id desc
 	</select>
 	<select id="getUserShows" resultType="UserShow" parameterType="String">
-		select username,showdata,timedate from jianjia.usershow where ispublic=true and username=#{username}  order by id desc
+		select username,showdata,timedate,id from jianjia.usershow where ispublic=true and username=#{username}  order by id desc
 	</select>
 	<select id="getSelfShows" resultType="UserShow" parameterType="String">
-		select username,showdata,timedate from jianjia.usershow where username=#{username} order by id desc
+		select username,showdata,timedate,id from jianjia.usershow where username=#{username} order by id desc
 	</select>
 	<select id="updateUserPicture">
 		update jianjia.userinfo set profilepicture=#{url} where username=#{username}
+	</select>
+	<select id="getShowcomments" resultType="Showcomment" parameterType="int">
+		select * from jianjia.showcomments where showid=#{showid}
+	</select>
+	<select id="postComment">
+		insert into jianjia.showcomments (username,comment,showid,timedate) values (#{username},#{comment},#{showid},#{timedate}) 
 	</select>
 </mapper>

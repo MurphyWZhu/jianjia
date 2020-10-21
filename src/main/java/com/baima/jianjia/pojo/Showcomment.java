@@ -7,10 +7,10 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserShow {
+public class Showcomment {
+    public int commentid;
+    public int showid;
+    public String comment;
     public String username;
-    public String showdata;
-    public Boolean ispublic;
     public String timedate;
-    public int id;
 }

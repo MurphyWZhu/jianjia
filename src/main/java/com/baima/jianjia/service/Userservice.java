@@ -3,6 +3,7 @@ package com.baima.jianjia.service;
 import java.io.File;
 import java.util.List;
 
+import com.baima.jianjia.pojo.Showcomment;
 import com.baima.jianjia.pojo.User;
 import com.baima.jianjia.pojo.UserShow;
 import com.baima.jianjia.pojo.Userinfo;
@@ -28,4 +29,6 @@ public interface Userservice{
 	public List<UserShow> getSelfShows(String username);
 	public List<UserShow> getUserShows(String username);
 	public void updateUserpicture(File file,String username,String filetype);
+	public List<Showcomment> getShowcomments(int showid);
+	public void postComment(String username,String comment,int showid);
 }

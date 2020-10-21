@@ -3,6 +3,7 @@ package com.baima.jianjia.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.baima.jianjia.pojo.Showcomment;
 import com.baima.jianjia.pojo.User;
 import com.baima.jianjia.pojo.UserShow;
 import com.baima.jianjia.pojo.Userinfo;
@@ -31,6 +32,7 @@ public class UsershowController {
         public String department;
         public String showdata;
         public String timedate;
+        public int showid;
     }
     @Autowired
     UserserviceImpl userService;
@@ -62,6 +64,7 @@ public class UsershowController {
             uShowandInfo.username=userShow.username;
             uShowandInfo.showdata=userShow.showdata;
             uShowandInfo.timedate=userShow.timedate;
+            uShowandInfo.showid=userShow.id;
             Userinfo userinfo = userService.getUserInfobyName(userShow.username);
             uShowandInfo.nikename=userinfo.nikename;
             uShowandInfo.profilepicture=userinfo.profilepicture;
@@ -93,5 +96,20 @@ public class UsershowController {
     @PostMapping(value = "/getusershows")
     public ModelAndView getUserShows(String username,Model model){
         return new ModelAndView("subusershow");
+    }
+    @PostMapping(value = "/getshowcomments")
+    public ModelAndView getShowcomments(int showid,Model model){
+        List<Showcomment> showcomments =  userService.getShowcomments(showid);
+        model.addAttribute("showComments", showcomments);
+        model.addAttribute("showid", showid);
+        return new ModelAndView("showcomments");
+    }
+    @PostMapping(value = "/postcomment")
+    public String postComment(int showid,String comment){
+        Subject currentSubject = SecurityUtils.getSubject();
+        Session session = currentSubject.getSession();
+        User user = (User) session.getAttribute("loginUser");
+        userService.postComment(user.username, comment, showid);
+        return "hello";
     }
 }

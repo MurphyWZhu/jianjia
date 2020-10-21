@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+import com.baima.jianjia.pojo.Showcomment;
 import com.baima.jianjia.pojo.User;
 import com.baima.jianjia.pojo.UserShow;
 import com.baima.jianjia.pojo.Userinfo;
@@ -43,12 +44,17 @@ public interface UserMapper {
 
 	public void postShow(@Param("username") String username, @Param("showdata") String showdata,
 			@Param("ispublic") Boolean ispublic, @Param("timedate") String timedate);
-	
+
 	public List<UserShow> getAllUserShows();
 
 	public List<UserShow> getSelfShows(String username);
 
 	public List<UserShow> getUserShows(String username);
 
-	public void updateUserPicture(@Param("username")String username,@Param("url")String url);
+	public void updateUserPicture(@Param("username") String username, @Param("url") String url);
+
+	public List<Showcomment> getShowcomments(int showid);
+
+	public void postComment(@Param("username") String username, @Param("comment") String comment,
+			@Param("showid") int showid, @Param("timedate") String timedate);
 }

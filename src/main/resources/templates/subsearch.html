@@ -1,6 +1,6 @@
 <div class="card" th:each="userinfo:${userinfoList}">
     <div class="card-body row">
-        <img class="col-2 userinfodiv" th:src="${userinfo.profilepicture}">
+        <img class="col-2 userinfodiv" th:src="${userinfo.profilepicture}" th:id="${userinfo.username}">
         <div class="col-6">
             <div class="row">
                 <h2 th:text="${userinfo.nikename}"></h2>
