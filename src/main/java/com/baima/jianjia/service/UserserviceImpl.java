@@ -86,6 +86,12 @@ public class UserserviceImpl implements Userservice{
 		String timedate = simpleDateFormat.format(date);
 		userMapper.postComment(username, comment, showid, timedate);
 	}
+	public void showLike(int showid,String username){
+		Date date = new Date();
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String timedate = simpleDateFormat.format(date);
+		userMapper.showLike(showid, username, timedate);
+	}
 	public List<UserShow> getAllUserShows(){
 		return userMapper.getAllUserShows();
 	}

@@ -11,6 +11,7 @@ public class IndexController {
     //定义首页地址
     @RequestMapping(value = {"/","/index"})
     public ModelAndView IndexPage() {
+        //定向到index.html
         return new ModelAndView("index");
     }
 }

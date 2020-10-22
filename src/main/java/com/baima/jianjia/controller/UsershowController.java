@@ -2,13 +2,11 @@ package com.baima.jianjia.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import com.baima.jianjia.pojo.Showcomment;
 import com.baima.jianjia.pojo.User;
 import com.baima.jianjia.pojo.UserShow;
 import com.baima.jianjia.pojo.Userinfo;
 import com.baima.jianjia.service.UserserviceImpl;
-
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
@@ -20,10 +18,14 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 
-
-
 @RestController
 public class UsershowController {
+    public User getUserByBBS(){
+        Subject currentSubject = SecurityUtils.getSubject();
+        Session session = currentSubject.getSession();
+        User user = (User) session.getAttribute("loginUser");
+        return user;
+    }
     public class userShowandInfo{
         public String username;
         public String nikename;
@@ -38,24 +40,15 @@ public class UsershowController {
     UserserviceImpl userService;
     @PostMapping(value = "/postshow")
     public String postShow(String showdata,Boolean ispublic){
-        Subject currentSubject = SecurityUtils.getSubject();
-        Session session = currentSubject.getSession();
-        User user = (User) session.getAttribute("loginUser");
-        String username;
-        if (user == null) {
-            username = null;
-            
-        }else{
-            username = user.username;
-        }
-        userService.postShow(username, showdata, ispublic);
+        User user = this.getUserByBBS();
+        userService.postShow(user.username, showdata, ispublic);
         return "hello";
     }
     @RequestMapping("/postshowbox")
     public ModelAndView postShowBox(){
         return new ModelAndView("postshowbox");
     }
-    @PostMapping(value = "/getallusershows")
+    @RequestMapping(value = "/getallusershows")
     public ModelAndView getAllUserShows(Model model){
         List<UserShow> allUserShows = userService.getAllUserShows();
         List<userShowandInfo> uShowandInfos = new ArrayList<>();
@@ -73,20 +66,12 @@ public class UsershowController {
             uShowandInfos.add(uShowandInfo);
         }
         model.addAttribute("uShowandInfos",uShowandInfos);
-        return new ModelAndView("suballusershows");
+        return new ModelAndView("showlist");
     }
     @PostMapping(value = "/getselfshows")
     public ModelAndView getSelfShows(Model model){
-        Subject currentSubject = SecurityUtils.getSubject();
-        Session session = currentSubject.getSession();
-        User user = (User) session.getAttribute("loginUser");
-        String username;
-        if (user == null) {
-            username = null;
-            
-        }else{
-            username = user.username;
-        }
+        User user = this.getUserByBBS();
+        String username = user.username;
         Userinfo userinfo = userService.getUserInfo(user);
         List<UserShow> userShows = userService.getSelfShows(username);
         model.addAttribute("userShows", userShows);
@@ -106,10 +91,17 @@ public class UsershowController {
     }
     @PostMapping(value = "/postcomment")
     public String postComment(int showid,String comment){
-        Subject currentSubject = SecurityUtils.getSubject();
-        Session session = currentSubject.getSession();
-        User user = (User) session.getAttribute("loginUser");
+        User user = this.getUserByBBS();
         userService.postComment(user.username, comment, showid);
         return "hello";
+    }
+    @PostMapping(value = "/toshowlike")
+    public String toShowLike(int showid){
+        User user = this.getUserByBBS();
+        if (user==null){
+            return "{\"info\":\"点赞失败\",\"code\":1}";
+        }
+        userService.showLike(showid, user.username);
+        return "{\"info\":\"点赞成功成功\",\"code\":0}";
     }
 }

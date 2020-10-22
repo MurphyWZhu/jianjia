@@ -43,6 +43,22 @@ $(document).ready(function () {
     $("#userselfspacebutton").click(function () {
         $.get("/userselfspace", "", function (data, status) {
             $("#maindiv").html(data);
+            $('button').click(function () {
+                if ($(this).hasClass("showselfcomment-button")){
+                    $.post("/getshowcomments", "showid=" + $(this).val(), function (data, status) {
+                        $("#shwoslefcomments-modal").html(data);
+                        $("#postshowcommentbutton").click(function () {
+                            $.post("/postcomment", "showid=" + $(this).val() + "&comment=" + $("#commentdatabox").val(), function (data, status) {
+                                if (status == "success") {
+                                    $("#maininfobox").append('<div class="alert alert-success alert-dismissible fade show" style="position:relative;top:10px;right:10px"><button type="button" class="close" data-dismiss="alert">&times;</button>发送成功</div>');
+                                    $('#myModal-showcomment').modal('hide');
+                                }
+                            });
+                        });
+                    });
+                }
+            });
+            
             $("#updateselfuserinfobutton").click(function () {
                 $.get("/subuserinfo", "", function (data, status) {
                     $("#userslefspacemodalmaindiv").html(data);
@@ -101,8 +117,6 @@ $(document).ready(function () {
                 }
             }
         });
-
-
     });
     $("#maindiv").on("click", "#searchboxbutton", function () {
         $.get("/tosearch", "key=" + $("#key").val() + "&sexfilter=" + $("#sexfilter").val() + "&departmentfilter=" + $("#departmentfilter").val(), function (data, status) {

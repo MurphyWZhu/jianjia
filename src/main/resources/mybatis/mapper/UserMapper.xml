@@ -11,9 +11,9 @@
     <select id="queryUserByName" resultType="User" parameterType="String">
 		select * from jianjia.userlogin where username=#{name}
 	</select>
-    <select id="addUser">
+    <insert id="addUser">
 		insert into jianjia.userlogin values (#{username},#{password})
-	</select>
+	</insert>
     <select id="getUserInfo" resultType="Userinfo" parameterType="String">
 		select * from jianjia.userinfo where username=#{username}
 	</select>
@@ -23,21 +23,21 @@
 	<select id="searchNikeName" resultType="Userinfo">
 		select * from jianjia.userinfo where nikename like #{nikename} and sex like #{sexfilter} and department like #{departmentfilter}
 	</select>
-	<select id="updateUserInfo">
+	<update id="updateUserInfo">
 		update jianjia.userinfo set age=#{age},nikename=#{nikename},sex=#{sex},department=#{department},"key"=#{key},"like"=#{like} where username=#{username}
-	</select>
+	</update>
 	<select id="getLikeList" resultType="String" parameterType="String">
 		select likeuser from jianjia.userlike where username=#{username}
 	</select>
-	<select id="toLike">
+	<insert id="toLike">
 		insert into jianjia.userlike values (#{username},#{likeuser})
-	</select>
-	<select id="rmLike">
+	</insert>
+	<delete id="rmLike">
 		delete from jianjia.userlike where username=#{username} and likeuser=#{likeuser}
-	</select>
-	<select id="postShow">
+	</delete>
+	<insert id="postShow">
 		insert into jianjia.usershow (username,showdata,ispublic,timedate) values (#{username},#{showdata},#{ispublic},#{timedate})
-	</select>
+	</insert>
 	<select id="getAllUserShows" resultType="UserShow">
 		select username,showdata,timedate,id from jianjia.usershow where ispublic=true order by id desc
 	</select>
@@ -47,13 +47,16 @@
 	<select id="getSelfShows" resultType="UserShow" parameterType="String">
 		select username,showdata,timedate,id from jianjia.usershow where username=#{username} order by id desc
 	</select>
-	<select id="updateUserPicture">
+	<update id="updateUserPicture">
 		update jianjia.userinfo set profilepicture=#{url} where username=#{username}
-	</select>
+	</update>
 	<select id="getShowcomments" resultType="Showcomment" parameterType="int">
 		select * from jianjia.showcomments where showid=#{showid}
 	</select>
-	<select id="postComment">
+	<insert id="postComment">
 		insert into jianjia.showcomments (username,comment,showid,timedate) values (#{username},#{comment},#{showid},#{timedate}) 
-	</select>
+	</insert>
+	<insert id="showLike">
+		insert into jianjia.showlike (showid,username,timedate) values(#{showid},#{username},#{timedate})
+	</insert>
 </mapper>

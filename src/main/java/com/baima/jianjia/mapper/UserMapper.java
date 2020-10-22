@@ -57,4 +57,6 @@ public interface UserMapper {
 
 	public void postComment(@Param("username") String username, @Param("comment") String comment,
 			@Param("showid") int showid, @Param("timedate") String timedate);
+
+	public void showLike(@Param("showid") int showid,@Param("username") String username,@Param("timedate") String timedate);
 }

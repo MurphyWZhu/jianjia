@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class LikeController {
     @Autowired
     UserserviceImpl userServer;
-    @RequestMapping(value="/like", method=RequestMethod.POST)
+    @RequestMapping(value="/userlike")
     public ModelAndView getLikeList(Model model) {
         Subject currentSubject = SecurityUtils.getSubject();
         Session session = currentSubject.getSession();
@@ -38,7 +38,7 @@ public class LikeController {
             likeUserInfoList.add(userinfo);
         }
         
-        model.addAttribute("likelist", likeUserInfoList);
+        model.addAttribute("userinfoList", likeUserInfoList);
         return new ModelAndView("likelist");
     }
     @PostMapping(value = "/tolike")

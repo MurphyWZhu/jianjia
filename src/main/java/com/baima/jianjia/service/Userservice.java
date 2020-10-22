@@ -31,4 +31,5 @@ public interface Userservice{
 	public void updateUserpicture(File file,String username,String filetype);
 	public List<Showcomment> getShowcomments(int showid);
 	public void postComment(String username,String comment,int showid);
+	public void showLike(int showid,String username);
 }

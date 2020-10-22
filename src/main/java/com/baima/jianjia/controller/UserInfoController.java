@@ -1,5 +1,6 @@
 package com.baima.jianjia.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.baima.jianjia.pojo.User;
@@ -18,6 +19,17 @@ import org.springframework.web.servlet.ModelAndView;
 
 @RestController
 public class UserInfoController {
+    public class userShowandInfo {
+        public String username;
+        public String nikename;
+        public String profilepicture;
+        public String sex;
+        public String department;
+        public String showdata;
+        public String timedate;
+        public int showid;
+    }
+
     @Autowired
     UserserviceImpl userService;
 
@@ -33,8 +45,9 @@ public class UserInfoController {
         System.out.println(user.username);
         return userService.getUserInfo(user);
     }
+
     @RequestMapping(value = "subuserinfo")
-    public ModelAndView UserInfo(Model model){
+    public ModelAndView UserInfo(Model model) {
         Subject currentSubject = SecurityUtils.getSubject();
         Session session = currentSubject.getSession();
         User user = (User) session.getAttribute("loginUser");
@@ -43,11 +56,12 @@ public class UserInfoController {
             return null;
         }
         Userinfo userinfo = userService.getUserInfo(user);
-        model.addAttribute("userinfo",userinfo);
+        model.addAttribute("userinfo", userinfo);
         return new ModelAndView("subuserinfo");
     }
+
     @RequestMapping(value = "userselfspace")
-    public ModelAndView UserSelfSpace(Model model){
+    public ModelAndView UserSelfSpace(Model model) {
         Subject currentSubject = SecurityUtils.getSubject();
         Session session = currentSubject.getSession();
         User user = (User) session.getAttribute("loginUser");
@@ -56,17 +70,33 @@ public class UserInfoController {
             return null;
         }
         Userinfo userinfo = userService.getUserInfo(user);
+        System.out.println(userinfo.profilepicture);
         List<UserShow> userShows = userService.getSelfShows(user.username);
-        model.addAttribute("userShows", userShows);
-        model.addAttribute("userinfo",userinfo);
-        return new ModelAndView("subuserselfspace");
+        List<userShowandInfo> uShowandInfos = new ArrayList<>();
+        for (UserShow userShow : userShows) {
+            userShowandInfo uShowandInfo = new userShowandInfo();
+            uShowandInfo.username = userShow.username;
+            uShowandInfo.showdata = userShow.showdata;
+            uShowandInfo.timedate = userShow.timedate;
+            uShowandInfo.showid = userShow.id;
+            uShowandInfo.nikename = userinfo.nikename;
+            uShowandInfo.profilepicture = userinfo.profilepicture;
+            uShowandInfo.department = userinfo.department;
+            uShowandInfo.sex = userinfo.sex;
+            uShowandInfos.add(uShowandInfo);
+        }
+        System.out.println(uShowandInfos.get(0).showdata);
+        model.addAttribute("userinfoself", userinfo);
+        model.addAttribute("uShowandInfos", uShowandInfos);
+        return new ModelAndView("userselfspace");
     }
+
     @PostMapping(value = "userspace")
-    public ModelAndView userSpace(String username,Model model){
+    public ModelAndView userSpace(String username, Model model) {
         Userinfo userinfo = userService.getUserInfobyName(username);
         List<UserShow> userShows = userService.getUserShows(username);
         model.addAttribute("userShows", userShows);
-        model.addAttribute("userinfo",userinfo);
+        model.addAttribute("userinfo", userinfo);
         return new ModelAndView("subuserspace");
     }
 }

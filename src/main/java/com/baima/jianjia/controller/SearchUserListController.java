@@ -20,15 +20,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class SearchUserListController {
     @Autowired
     UserserviceImpl userService;
-    @RequestMapping(value = "/tosearch")
+    @RequestMapping(value = "/search")
     public ModelAndView searchUserList(String key, String sexfilter, String departmentfilter,Model model){
+        if(sexfilter==null || departmentfilter==null){
+            return new ModelAndView("search");
+        }
         if(sexfilter.contains("不限")){
             sexfilter="%";
         }
         if(departmentfilter.contains("不限")){
             departmentfilter="%";
         }
-        System.out.println(sexfilter+":"+departmentfilter);
         List<Userinfo> userinfoList = userService.searchKey(key,sexfilter,departmentfilter);
         List<String> userinfoListName = new ArrayList<>();
         for (Userinfo userinfo : userinfoList) {
@@ -54,9 +56,11 @@ public class SearchUserListController {
         for (Userinfo userinfo : userinfoList) {
             userinfo.likeit = likeUserNameList.contains(userinfo.username);
         }
-        System.out.println(key);
         model.addAttribute("userinfoList",userinfoList);
-        return new ModelAndView("subsearch");
+        model.addAttribute("searchkey",key);
+        model.addAttribute("searchsex",sexfilter);
+        model.addAttribute("searchdepartment",departmentfilter);
+        return new ModelAndView("search");
     }
     @RequestMapping(value="/subsearchbox", method=RequestMethod.GET)
     public ModelAndView searchpage() {
