@@ -4,9 +4,40 @@ $(document).ready(function () {
             $("#maindiv").html(data);
         });
     });
-    $("#logoutbutton").click(function(){
-        $.post("/logout","",function(data,status){
+    $("#logoutbutton").click(function () {
+        $.post("/logout", "", function (data, status) {
             $(window).attr('location', '/');
+        });
+    });
+    $("#likelistbutton").click(function () {
+        $.post("/like", "", function (data, status) {
+            $("#maindiv").html(data);
+            $('button').click(function () {
+
+                if ($(this).hasClass("aaa")) {
+                    $.ajaxSettings.async = false;
+                    var likerecode;
+                    $.post("/rmlike", "likeuser=" + $(this)[0].value, function (data, status) {
+                        var rr = $.parseJSON(data);
+                        likerecode = rr.code;
+                    });
+                    if (likerecode == 0) {
+                        $(this).text("喜欢");
+                        $(this).addClass("bbb btn-danger").removeClass("aaa btn-primary");
+                    }
+                }
+                else if ($(this).hasClass("bbb")) {
+                    $.post("/tolike", "likeuser=" + $(this)[0].value, function (data, status) {
+                        var rr = $.parseJSON(data);
+                        likerecode = rr.code;
+                    });
+                    if (likerecode == 0) {
+                        $(this).text("取消喜欢");
+                        $(this).addClass("aaa btn-primary").removeClass("bbb btn-danger");
+                    }
+                }
+
+            });
         });
     });
     $("#userselfspacebutton").click(function () {

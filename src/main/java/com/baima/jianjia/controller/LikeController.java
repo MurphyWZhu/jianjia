@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class LikeController {
     @Autowired
     UserserviceImpl userServer;
-    @RequestMapping(value="/like", method=RequestMethod.GET)
+    @RequestMapping(value="/like", method=RequestMethod.POST)
     public ModelAndView getLikeList(Model model) {
         Subject currentSubject = SecurityUtils.getSubject();
         Session session = currentSubject.getSession();
@@ -33,8 +33,11 @@ public class LikeController {
         List<String> likeUserNameList = userServer.getLikeList(user.username);
         List<Userinfo> likeUserInfoList = new ArrayList<Userinfo>();
         for (String likeUserName : likeUserNameList) {
-            likeUserInfoList.add(userServer.getUserInfo(userServer.queryUserByName(likeUserName)));
+            Userinfo userinfo = userServer.getUserInfo(userServer.queryUserByName(likeUserName));
+            userinfo.likeit = true;
+            likeUserInfoList.add(userinfo);
         }
+        
         model.addAttribute("likelist", likeUserInfoList);
         return new ModelAndView("likelist");
     }
@@ -48,7 +51,7 @@ public class LikeController {
             return null;
         }
         userServer.toLike(user.username, likeuser);
-        return "hello";
+        return "{\"info\":\"喜欢成功\",\"code\":0}";
     }
     @PostMapping(value = "/rmlike")
     public String rmLike(String likeuser){
@@ -60,6 +63,6 @@ public class LikeController {
             return null;
         }
         userServer.rmLike(user.username, likeuser);
-        return "hello";
+        return "{\"info\":\"取消成功\",\"code\":0}";
     }
 }

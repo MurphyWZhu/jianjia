@@ -22,8 +22,8 @@ public class TencentCloudObjectController {
     UserserviceImpl userService;
 
     @PostMapping(value = "/updateprofilepicture")
-    public String updateProfilePicture(@RequestParam("file")MultipartFile file) throws IllegalStateException, IOException {
-        if(file.isEmpty()){
+    public String updateProfilePicture(@RequestParam("file") MultipartFile file) {
+        if (file.isEmpty()) {
             return "error";
         }
         Subject currentSubject = SecurityUtils.getSubject();
@@ -33,9 +33,19 @@ public class TencentCloudObjectController {
         System.out.println(fileName);
         String filetype = fileName.substring(fileName.lastIndexOf("."));
         System.out.println(filetype);
-        File dest = new File("/opt/"+"tmp.jepg");
-        file.transferTo(dest);
+        File dest = new File("/opt/" + "tmp.jepg");
+        try {
+            file.transferTo(dest);
+        } catch (IllegalStateException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return "{\"info\":\"修改失败\",\"code\":1}";
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return "{\"info\":\"修改失败\",\"code\":1}";
+        }
         userService.updateUserpicture(dest, user.username,filetype);
-        return "hello";
+        return "{\"info\":\"修改成功\",\"code\":0}";
     }
 }
