@@ -59,4 +59,7 @@
 	<insert id="showLike">
 		insert into jianjia.showlike (showid,username,timedate) values(#{showid},#{username},#{timedate})
 	</insert>
+	<select id="getShowById" resultType="UserShow" parameterType="int">
+		select * from jianjia.usershow where id=#{showid}
+	</select>
 </mapper>

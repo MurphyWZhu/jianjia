@@ -59,4 +59,6 @@ public interface UserMapper {
 			@Param("showid") int showid, @Param("timedate") String timedate);
 
 	public void showLike(@Param("showid") int showid,@Param("username") String username,@Param("timedate") String timedate);
+
+	public UserShow getShowById(int showid);
 }

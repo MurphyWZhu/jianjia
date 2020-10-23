@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    $("a[id^='likeshow']").click(function(){
+    $("button[id^='likeshow']").click(function(){
         $.post("/toshowlike","showid="+$(this).attr('value'),function(data,status){
             var rr = $.parseJSON(data);
             if(status=="success"){

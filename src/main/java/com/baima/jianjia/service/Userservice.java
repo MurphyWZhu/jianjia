@@ -32,4 +32,5 @@ public interface Userservice{
 	public List<Showcomment> getShowcomments(int showid);
 	public void postComment(String username,String comment,int showid);
 	public void showLike(int showid,String username);
+	public UserShow getShowById(int showid);
 }

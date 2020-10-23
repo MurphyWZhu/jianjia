@@ -143,10 +143,11 @@
                 <div class="row">
                     <p th:text="${userinfo.timedate}" style="font-size: 0.8em;"></p>
                 </div>
-                <div class="row" style="border-top: 1px solid #eee;padding-top: 8px;">
-                    <a class="col-3 offset-2" th:id="likeshow+${userinfo.showid}" th:value="${userinfo.showid}">点赞</a>
-                    <a class="col-3">评论</a>
-                    <a class="col-3">收藏</a>
+                <div class="row" style="border-top: 1px solid #eee;">
+                    <!-- <a class="col-3 offset-2" th:id="likeshow+${userinfo.showid}" th:value="${userinfo.showid}">点赞</a> -->
+                    <button type="button" class="btn col-1 btn-light offset-3" th:id="likeshow+${userinfo.showid}" th:value="${userinfo.showid}">点赞</button>
+                    <a type="button" class="btn btn-light col-1 offset-1" th:href="@{showinfo}+'?showid='+${userinfo.showid}">评论</a>
+                    <button type="button" class="btn btn-light col-1 offset-1">收藏</button>
                 </div>
             </div>
         </div>
@@ -273,28 +274,33 @@
                                         <div class="form-row">
                                             <div class="col-md-6 mb-3">
                                                 <label for="validationTooltip01">用户名</label>
-                                                <input type="text" class="form-control" id="validationTooltip01" required th:value="${userinfoself.username}">
+                                                <input type="text" class="form-control" id="validationTooltip01"
+                                                    required th:value="${userinfoself.username}">
                                             </div>
                                             <div class="col-md-6 mb-3">
                                                 <label for="validationTooltip02">昵称</label>
-                                                <input type="text" class="form-control" id="validationTooltip02" required th:value="${userinfoself.nikename}">
+                                                <input type="text" class="form-control" id="validationTooltip02"
+                                                    required th:value="${userinfoself.nikename}">
                                             </div>
                                         </div>
                                         <div class="form-row">
                                             <div class="col-md-6 mb-3">
                                                 <label for="validationTooltip03">年龄</label>
-                                                <input type="text" class="form-control" id="validationTooltip03" required th:value="${userinfoself.age}">
+                                                <input type="text" class="form-control" id="validationTooltip03"
+                                                    required th:value="${userinfoself.age}">
                                             </div>
                                             <div class="col-md-3 mb-3">
                                                 <label for="validationTooltip04">性别</label>
-                                                <select class="custom-select" id="validationTooltip04" required th:value="${userinfoself.sex}">
+                                                <select class="custom-select" id="validationTooltip04" required
+                                                    th:value="${userinfoself.sex}">
                                                     <option>男</option>
                                                     <option>女</option>
                                                 </select>
                                             </div>
                                             <div class="col-md-3 mb-3">
                                                 <label for="validationTooltip05">学院</label>
-                                                <select class="custom-select" id="validationTooltip05" required th:value="${userinfoself.department}">
+                                                <select class="custom-select" id="validationTooltip05" required
+                                                    th:value="${userinfoself.department}">
                                                     <option>网络工程学院</option>
                                                     <option>信息工程学院</option>
                                                     <option>生物工程学院</option>
@@ -305,15 +311,17 @@
                                         <div class="form-row">
                                             <div class="col-md-6 mb-3">
                                                 <label for="validationTooltip06">关键词</label>
-                                                <input type="text" class="form-control" id="validationTooltip06" required th:value="${userinfoself.key}">
+                                                <input type="text" class="form-control" id="validationTooltip06"
+                                                    required th:value="${userinfoself.key}">
                                             </div>
                                             <div class="col-md-6 mb-3">
                                                 <label for="validationTooltip07">喜好</label>
-                                                <input type="text" class="form-control" id="validationTooltip07" required th:value="${userinfoself.like}">
+                                                <input type="text" class="form-control" id="validationTooltip07"
+                                                    required th:value="${userinfoself.like}">
                                             </div>
                                         </div>
-                                
-                                
+
+
                                     </div>
                                     <button class="btn btn-primary" id="subuserinfosubut">提交</button>
                                 </div>
@@ -331,5 +339,35 @@
         </div>
     </div>
 
-    
+
+    <div class="container" th:fragment="jianjia-showinfo">
+        <div class="media border p-3">
+            <img th:src="${postshowuserinfo.profilepicture}" class="mr-3 mt-3 rounded-circle" style="width:60px;">
+            <div class="media-body">
+                <h4 th:text="${postshowuserinfo.nikename}"></h4>
+                <p th:text="${usershow.showdata}"></p>
+                <div class="row" style="border-top: 1px solid #eee;padding-top: 8px;">
+                    <button type="button" class="btn col-1 offset-5" th:id="likeshow+${usershow.id}" th:value="${usershow.id}">点赞</button>
+                    <button type="button" class="btn col-1">收藏</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" th:fragment="jianjia-comment">
+        <div class="media border p-3">
+            <img th:src="${postshowuserinfo.profilepicture}" class="mr-3 mt-3 rounded-circle" style="width:60px;">
+            <div class="media-body">
+                <textarea class="form-control" rows="3" id="commentbox"></textarea>
+                <div class="d-flex flex-row-reverse">
+                    <button type="button" class="btn btn-info" id="post-comment">发送</button>
+                </div>
+            </div>
+        </div>
+        <div class="media border p-3" th:each="comment:${showComments}">
+            <div class="media-body">
+                <p th:text="${comment.comment}"></p>
+            </div>
+        </div>
+    </div>
 </body>

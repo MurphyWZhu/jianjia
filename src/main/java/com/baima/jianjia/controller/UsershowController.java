@@ -104,4 +104,17 @@ public class UsershowController {
         userService.showLike(showid, user.username);
         return "{\"info\":\"点赞成功成功\",\"code\":0}";
     }
+    @RequestMapping(value = "/showinfo")
+    public ModelAndView getShowInfo(int showid,Model model){
+        UserShow usershow = userService.getShowById(showid);
+        if (usershow==null){
+            return new ModelAndView("error/404");
+        }
+        Userinfo userinfo = userService.getUserInfobyName(usershow.username);
+        List<Showcomment> showcomments =  userService.getShowcomments(showid);
+        model.addAttribute("showComments", showcomments);
+        model.addAttribute("postshowuserinfo", userinfo);
+        model.addAttribute("usershow", usershow);
+        return new ModelAndView("showinfo");
+    }
 }

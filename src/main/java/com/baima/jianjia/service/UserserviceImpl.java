@@ -125,4 +125,7 @@ public class UserserviceImpl implements Userservice{
 		cosClient.shutdown();
 		userMapper.updateUserPicture(username, "https://jianjia-1253347887.cos.ap-nanjing.myqcloud.com/"+key);
 	}
+	public UserShow getShowById(int showid){
+		return userMapper.getShowById(showid);
+	}
 }
