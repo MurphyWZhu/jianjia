@@ -19,4 +19,5 @@ public class Userinfo {
     public String key;
     public String like;
     public boolean likeit;
+    public String motto;
 }

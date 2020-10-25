@@ -62,9 +62,4 @@ public class SearchUserListController {
         model.addAttribute("searchdepartment",departmentfilter);
         return new ModelAndView("search");
     }
-    @RequestMapping(value="/subsearchbox", method=RequestMethod.GET)
-    public ModelAndView searchpage() {
-        return new ModelAndView("subsearchbox");
-    }
-    
 }

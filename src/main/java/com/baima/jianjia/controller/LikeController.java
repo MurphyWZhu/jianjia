@@ -14,22 +14,23 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-
 
 @RestController
 public class LikeController {
-    @Autowired
-    UserserviceImpl userServer;
-    @RequestMapping(value="/userlike")
-    public ModelAndView getLikeList(Model model) {
+    //次方法用于获取session中的用户信息
+    public User getUserByBBS(){
         Subject currentSubject = SecurityUtils.getSubject();
         Session session = currentSubject.getSession();
         User user = (User) session.getAttribute("loginUser");
-        if (user == null) {
-            System.out.println("no login");
-            return null;
-        }
+        return user;
+    }
+    //自动装载UserserviceImpl
+    @Autowired
+    UserserviceImpl userServer;
+    //获取用户喜欢的人列表的方法
+    @RequestMapping(value="/userlike")
+    public ModelAndView getLikeList(Model model) {
+        User user = this.getUserByBBS();
         List<String> likeUserNameList = userServer.getLikeList(user.username);
         List<Userinfo> likeUserInfoList = new ArrayList<Userinfo>();
         for (String likeUserName : likeUserNameList) {
@@ -37,29 +38,24 @@ public class LikeController {
             userinfo.likeit = true;
             likeUserInfoList.add(userinfo);
         }
-        
         model.addAttribute("userinfoList", likeUserInfoList);
         return new ModelAndView("likelist");
     }
+    //喜欢一个用户的方法
     @PostMapping(value = "/tolike")
     public String toLike(String likeuser){
-        Subject currentSubject = SecurityUtils.getSubject();
-        Session session = currentSubject.getSession();
-        User user = (User) session.getAttribute("loginUser");
-        if (user == null) {
-            System.out.println("no login");
+        User user = this.getUserByBBS();
+        if(user==null){
             return null;
         }
         userServer.toLike(user.username, likeuser);
         return "{\"info\":\"喜欢成功\",\"code\":0}";
     }
+    //取消喜欢一个用户的方法
     @PostMapping(value = "/rmlike")
     public String rmLike(String likeuser){
-        Subject currentSubject = SecurityUtils.getSubject();
-        Session session = currentSubject.getSession();
-        User user = (User) session.getAttribute("loginUser");
+        User user = this.getUserByBBS();
         if (user == null) {
-            System.out.println("no login");
             return null;
         }
         userServer.rmLike(user.username, likeuser);

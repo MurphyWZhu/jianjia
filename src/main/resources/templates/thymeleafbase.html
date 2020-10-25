@@ -128,28 +128,35 @@
     </div>
 
     <div class="container" th:fragment="jianjia-showlist">
-        <div class="media border p-3" th:each="userinfo:${uShowandInfos}">
-            <img th:src="${userinfo.profilepicture}" th:alt="${userinfo.nikename}" class="mr-3 mt-3 rounded-circle"
-                style="width:60px;">
+        <div class="media border p-3" th:each="usershowandinfo:${usershowandinfos}">
+            <img th:src="${usershowandinfo.userinfo.profilepicture}" th:alt="${usershowandinfo.userinfo.nikename}"
+                class="mr-3 mt-3 rounded-circle" style="width:60px;">
             <div class="media-body">
                 <div class="row">
-                    <h4 th:text="${userinfo.nikename}"></h4>
-                    <i class="fa fa-mars" aria-hidden="true" th:if="${userinfo.sex eq '男'}"></i>
-                    <i class="fa fa-venus" aria-hidden="true" th:if='${userinfo.sex eq "女"}'></i>
+                    <h4 th:text="${usershowandinfo.userinfo.nikename}"></h4>
+                    <i class="fa fa-mars" aria-hidden="true" th:if="${usershowandinfo.userinfo.sex eq '男'}"></i>
+                    <i class="fa fa-venus" aria-hidden="true" th:if='${usershowandinfo.userinfo.sex eq "女"}'></i>
                 </div>
                 <div class="row">
-                    <p class="col-11" th:text=${userinfo.showdata}></p>
+                    <p class="col-11" th:text=${usershowandinfo.userShow.showdata}></p>
                 </div>
                 <div class="row">
-                    <p th:text="${userinfo.timedate}" style="font-size: 0.8em;"></p>
+                    <p th:text="${usershowandinfo.userShow.timedate}" style="font-size: 0.8em;"></p>
                 </div>
                 <div class="row" style="border-top: 1px solid #eee;">
                     <!-- <a class="col-3 offset-2" th:id="likeshow+${userinfo.showid}" th:value="${userinfo.showid}">点赞</a> -->
-                    <button type="button" class="btn col-1 btn-light offset-3" th:id="likeshow+${userinfo.showid}" th:value="${userinfo.showid}">点赞</button>
-                    <a type="button" class="btn btn-light col-1 offset-1" th:href="@{showinfo}+'?showid='+${userinfo.showid}">评论</a>
+                    <button type="button" class="btn col-1 btn-light offset-3"
+                        th:id="likeshow+${usershowandinfo.userShow.id}"
+                        th:value="${usershowandinfo.userShow.id}">点赞</button>
+                    <a type="button" class="btn btn-light col-1 offset-1"
+                        th:href="@{showinfo}+'?showid='+${usershowandinfo.userShow.id}">评论</a>
                     <button type="button" class="btn btn-light col-1 offset-1">收藏</button>
                 </div>
             </div>
+        </div>
+
+        <div class="media border p-3" th:each="userinfos:${testabc}">
+            <p th:text="${userinfos.userinfo.nikename}"></p>
         </div>
     </div>
 
@@ -254,9 +261,14 @@
             </div>
             <div class="col-5">
                 <h2 th:text="${userinfoself.nikename}"></h2>
-                <p>开开心心每一天</p>
-                <button type=button class="btn btn-secondary" id="updateselfuserinfobutton" data-toggle="modal"
-                    data-target="#myModal2">修改资料</button>
+                <p th:text="${userinfoself.motto}"></p>
+                <div class="row">
+                    <p class="col-1" th:text="${userinfoself.sex}"></p>
+                    <p class="col-2" th:text="${userinfoself.age}+'岁'"></p>
+                    <p class="col-4" th:text="${userinfoself.department}"></p>
+                </div>
+                <p th:text="'喜好：'+${userinfoself.like}"></p>
+                
                 <div class="modal fade" id="myModal2">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -336,6 +348,8 @@
                     </div>
                 </div>
             </div>
+            <button type=button class="col-2 offset-10 btn btn-secondary" id="updateselfuserinfobutton" data-toggle="modal"
+                    data-target="#myModal2">修改资料</button>
         </div>
     </div>
 
@@ -347,7 +361,8 @@
                 <h4 th:text="${postshowuserinfo.nikename}"></h4>
                 <p th:text="${usershow.showdata}"></p>
                 <div class="row" style="border-top: 1px solid #eee;padding-top: 8px;">
-                    <button type="button" class="btn col-1 offset-5" th:id="likeshow+${usershow.id}" th:value="${usershow.id}">点赞</button>
+                    <button type="button" class="btn col-1 offset-5" th:id="likeshow+${usershow.id}"
+                        th:value="${usershow.id}">点赞</button>
                     <button type="button" class="btn col-1">收藏</button>
                 </div>
             </div>

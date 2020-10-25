@@ -26,15 +26,9 @@ public class UsershowController {
         User user = (User) session.getAttribute("loginUser");
         return user;
     }
-    public class userShowandInfo{
-        public String username;
-        public String nikename;
-        public String profilepicture;
-        public String sex;
-        public String department;
-        public String showdata;
-        public String timedate;
-        public int showid;
+    public class userShowAndInfo{
+        public Userinfo userinfo;
+        public UserShow userShow;
     }
     @Autowired
     UserserviceImpl userService;
@@ -44,44 +38,22 @@ public class UsershowController {
         userService.postShow(user.username, showdata, ispublic);
         return "hello";
     }
-    @RequestMapping("/postshowbox")
-    public ModelAndView postShowBox(){
-        return new ModelAndView("postshowbox");
-    }
+    
     @RequestMapping(value = "/getallusershows")
     public ModelAndView getAllUserShows(Model model){
         List<UserShow> allUserShows = userService.getAllUserShows();
-        List<userShowandInfo> uShowandInfos = new ArrayList<>();
+        List<userShowAndInfo> usershowandinfos = new ArrayList<>();
         for (UserShow userShow : allUserShows) {
-            userShowandInfo uShowandInfo = new userShowandInfo();
-            uShowandInfo.username=userShow.username;
-            uShowandInfo.showdata=userShow.showdata;
-            uShowandInfo.timedate=userShow.timedate;
-            uShowandInfo.showid=userShow.id;
+            userShowAndInfo usershowandinfo = new userShowAndInfo();
+            usershowandinfo.userShow = userShow;
             Userinfo userinfo = userService.getUserInfobyName(userShow.username);
-            uShowandInfo.nikename=userinfo.nikename;
-            uShowandInfo.profilepicture=userinfo.profilepicture;
-            uShowandInfo.department=userinfo.department;
-            uShowandInfo.sex=userinfo.sex;
-            uShowandInfos.add(uShowandInfo);
+            usershowandinfo.userinfo = userinfo;
+            usershowandinfos.add(usershowandinfo);
         }
-        model.addAttribute("uShowandInfos",uShowandInfos);
+        model.addAttribute("usershowandinfos",usershowandinfos);
         return new ModelAndView("showlist");
     }
-    @PostMapping(value = "/getselfshows")
-    public ModelAndView getSelfShows(Model model){
-        User user = this.getUserByBBS();
-        String username = user.username;
-        Userinfo userinfo = userService.getUserInfo(user);
-        List<UserShow> userShows = userService.getSelfShows(username);
-        model.addAttribute("userShows", userShows);
-        model.addAttribute("userinfo", userinfo);
-        return new ModelAndView("subselfshow");
-    }
-    @PostMapping(value = "/getusershows")
-    public ModelAndView getUserShows(String username,Model model){
-        return new ModelAndView("subusershow");
-    }
+    
     @PostMapping(value = "/getshowcomments")
     public ModelAndView getShowcomments(int showid,Model model){
         List<Showcomment> showcomments =  userService.getShowcomments(showid);

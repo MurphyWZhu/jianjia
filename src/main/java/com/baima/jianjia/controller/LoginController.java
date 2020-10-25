@@ -15,11 +15,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 @RestController
 public class LoginController {
+	//进入登录页的方法
 	@RequestMapping("/login")
 	public ModelAndView Hellologin() {
 		return new ModelAndView("login");
 	}
-
+	//登录的方法
 	@PostMapping(value = "/tologin")
 	public String login(String username, String password) {
 		Subject subject = SecurityUtils.getSubject();
@@ -34,7 +35,7 @@ public class LoginController {
 			return "{\"info\":\"密码错误\",\"code\":2}";
 		}
 	}
-
+	//注销的方法
 	@RequestMapping("/logout")
 	public ModelAndView logout() {
 		Subject subject = SecurityUtils.getSubject();
