@@ -10,16 +10,16 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 @RestController
 public class UpdateUserinfoController {
     @Autowired
     UserserviceImpl userService;
     @PostMapping(value = "updateuserinfo")
-    public String updateUserInfo(int age, String nikename,
+    public ModelAndView updateUserInfo(String nikename,int age, 
                                  String sex, String department,
-                                 String profilepicture, String key,
-                                 String like){
+                                 String key,String like){
         Subject currentSubject = SecurityUtils.getSubject();
         Session session = currentSubject.getSession();
         User user = (User) session.getAttribute("loginUser");
@@ -28,7 +28,7 @@ public class UpdateUserinfoController {
             return null;
         }
         Userinfo userinfo = userService.getUserInfo(user);
-        userService.updateUserInfo(userinfo.username, age, nikename, sex, department, profilepicture, key, like);
-        return "{\"info\":\"修改成功\",\"code\":0}";
+        userService.updateUserInfo(userinfo.username, age, nikename, sex, department, key, like);
+        return new ModelAndView("redirect:/userselfspace");
     }
 }

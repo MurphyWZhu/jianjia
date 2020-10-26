@@ -34,7 +34,7 @@ public interface UserMapper {
 
 	public void updateUserInfo(@Param("username") String username, @Param("age") int age,
 			@Param("nikename") String nikename, @Param("sex") String sex, @Param("department") String department,
-			@Param("profilepicture") String profilepicture, @Param("key") String key, @Param("like") String like);
+			@Param("key") String key, @Param("like") String like);
 
 	public List<String> getLikeList(String username);
 
@@ -43,7 +43,7 @@ public interface UserMapper {
 	public void rmLike(@Param("username") String username, @Param("likeuser") String likeuser);
 
 	public void postShow(@Param("username") String username, @Param("showdata") String showdata,
-			@Param("ispublic") Boolean ispublic, @Param("timedate") String timedate);
+			@Param("timedate") String timedate);
 
 	public List<UserShow> getAllUserShows();
 
@@ -58,7 +58,14 @@ public interface UserMapper {
 	public void postComment(@Param("username") String username, @Param("comment") String comment,
 			@Param("showid") int showid, @Param("timedate") String timedate);
 
-	public void showLike(@Param("showid") int showid,@Param("username") String username,@Param("timedate") String timedate);
+	public void showLike(@Param("showid") int showid, @Param("username") String username,
+			@Param("timedate") String timedate);
 
 	public UserShow getShowById(int showid);
+
+	public int searchshowlike(@Param("showid") int showid, @Param("username") String username);
+
+	public List<Userinfo> searchUserinfoPage(@Param("key") String key,@Param("sexfilter") String sexfilter, @Param("departmentfilter") String departmentfilter,
+			@Param("page") int page);
+	public int countPage(@Param("key") String key,@Param("sexfilter") String sexfilter, @Param("departmentfilter") String departmentfilter);
 }

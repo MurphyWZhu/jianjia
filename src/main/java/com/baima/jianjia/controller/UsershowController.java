@@ -30,13 +30,17 @@ public class UsershowController {
         public Userinfo userinfo;
         public UserShow userShow;
     }
+    public class showCommentAndInfo{
+        public Showcomment showcomment;
+        public Userinfo userinfo;
+    }
     @Autowired
     UserserviceImpl userService;
     @PostMapping(value = "/postshow")
-    public String postShow(String showdata,Boolean ispublic){
+    public ModelAndView postShow(String showdata){
         User user = this.getUserByBBS();
-        userService.postShow(user.username, showdata, ispublic);
-        return "hello";
+        userService.postShow(user.username, showdata);
+        return new ModelAndView("redirect:/userselfspace");
     }
     
     @RequestMapping(value = "/getallusershows")
@@ -62,19 +66,22 @@ public class UsershowController {
         return new ModelAndView("showcomments");
     }
     @PostMapping(value = "/postcomment")
-    public String postComment(int showid,String comment){
+    public ModelAndView postComment(int showid,String comment){
         User user = this.getUserByBBS();
         userService.postComment(user.username, comment, showid);
-        return "hello";
+        return new ModelAndView("redirect:showinfo?showid="+showid);
     }
     @PostMapping(value = "/toshowlike")
     public String toShowLike(int showid){
         User user = this.getUserByBBS();
         if (user==null){
-            return "{\"info\":\"点赞失败\",\"code\":1}";
+            return "{\"info\":\"点赞失败,未登录\",\"code\":1}";
+        }
+        if(userService.isShowLike(showid, user.username)){
+            return "{\"info\":\"点赞失败,已点赞\",\"code\":1}";
         }
         userService.showLike(showid, user.username);
-        return "{\"info\":\"点赞成功成功\",\"code\":0}";
+        return "{\"info\":\"点赞成功\",\"code\":0}";
     }
     @RequestMapping(value = "/showinfo")
     public ModelAndView getShowInfo(int showid,Model model){
@@ -84,7 +91,14 @@ public class UsershowController {
         }
         Userinfo userinfo = userService.getUserInfobyName(usershow.username);
         List<Showcomment> showcomments =  userService.getShowcomments(showid);
-        model.addAttribute("showComments", showcomments);
+        List<showCommentAndInfo> showCommentAndInfos = new ArrayList<>();
+        for (Showcomment showcomment : showcomments) {
+            showCommentAndInfo sCommentAndInfo = new showCommentAndInfo();
+            sCommentAndInfo.showcomment = showcomment;
+            sCommentAndInfo.userinfo = userService.getUserInfobyName(showcomment.username);
+            showCommentAndInfos.add(sCommentAndInfo);
+        }
+        model.addAttribute("showcommentandinfos", showCommentAndInfos);
         model.addAttribute("postshowuserinfo", userinfo);
         model.addAttribute("usershow", usershow);
         return new ModelAndView("showinfo");

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 @RestController
 public class TencentCloudObjectController {
@@ -21,9 +22,9 @@ public class TencentCloudObjectController {
     UserserviceImpl userService;
 
     @PostMapping(value = "/updateprofilepicture")
-    public String updateProfilePicture(@RequestParam("file") MultipartFile file) {
+    public ModelAndView updateProfilePicture(@RequestParam("file") MultipartFile file) {
         if (file.isEmpty()) {
-            return "error";
+            return new ModelAndView("redirect:/userselfspace");
         }
         Subject currentSubject = SecurityUtils.getSubject();
         Session session = currentSubject.getSession();
@@ -38,13 +39,13 @@ public class TencentCloudObjectController {
         } catch (IllegalStateException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-            return "{\"info\":\"修改失败\",\"code\":1}";
+            return new ModelAndView("redirect:/userselfspace");
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-            return "{\"info\":\"修改失败\",\"code\":1}";
+            return new ModelAndView("redirect:/userselfspace");
         }
         userService.updateUserpicture(dest, user.username,filetype);
-        return "{\"info\":\"修改成功\",\"code\":0}";
+        return new ModelAndView("redirect:/userselfspace");
     }
 }

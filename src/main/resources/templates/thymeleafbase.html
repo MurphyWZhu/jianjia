@@ -57,7 +57,6 @@
                         </a>
                         <div class="dropdown-menu">
                             <a class="dropdown-item" th:href="@{/userselfspace}">个人空间</a>
-                            <a class="dropdown-item" id="indexpostshowbutton">发条动态</a>
                             <a class="dropdown-item" th:href="@{/userlike}">喜欢的人</a>
                             <a class="dropdown-item" th:href="@{/logout}">注销</a>
                         </div>
@@ -68,7 +67,7 @@
         </nav>
     </div>
 
-    <div class="container" th:fragment="jianjia-userlist">
+    <div id="userlistdiv" class="container" th:fragment="jianjia-userlist">
         <div class="card" th:each="userinfo:${userinfoList}">
             <div class="card-body row">
                 <img class="col-2 userinfodiv" th:src="${userinfo.profilepicture}" th:id="${userinfo.username}">
@@ -88,12 +87,19 @@
             </div>
             <div class="card-footer">
                 <div class="row">
-                    <button type="button" class="btn btn-primary col-2 aaa" th:if="${userinfo.likeit}"
-                        th:value="${userinfo.username}">取消喜欢</button>
-                    <button type="button" class="btn btn-danger col-2 bbb" th:if="${!userinfo.likeit}"
-                        th:value="${userinfo.username}">喜欢</button>
+                    <button type="button" class="btn btn-primary col-2" th:id="'rmlike'+${userinfo.username}"
+                        th:if="${userinfo.likeit}" th:value="${userinfo.username}">取消喜欢</button>
+                    <button type="button" class="btn btn-danger col-2" th:id="'tolike'+${userinfo.username}"
+                        th:if="${!userinfo.likeit}" th:value="${userinfo.username}">喜欢</button>
                 </div>
             </div>
+        </div>
+        <div style="margin: 0 auto;">
+            <ul class="pagination" style="display: table;text-align: center;margin: 0 auto;">
+                <li class="page-item" th:each="mypage:${pagelist}" style="float: left;">
+                    <a class="page-link" th:href="@{/search}+'?key='+${searchkey}+'&sexfilter='+${searchsex}+'&departmentfilter='+${searchdepartment}+'&page='+${mypage}" th:text="${mypage}"></a>
+                </li>
+            </ul>
         </div>
     </div>
 
@@ -125,6 +131,14 @@
         </nav>
         <div id="searchboxmaindiv">
         </div>
+    </div>
+
+    <div class="container" th:fragment="jianjia-postshow">
+        <form th:action="@{/postshow}" method="POST">
+            <label for="comment">发条动态:</label>
+            <button type="submit" class="btn">发送</button>
+            <textarea name="showdata" class="form-control" rows="5" id="comment"></textarea>
+        </form>
     </div>
 
     <div class="container" th:fragment="jianjia-showlist">
@@ -242,20 +256,12 @@
 
                         <!-- 模态框主体 -->
                         <div class="modal-body">
-                            <form method="post" action="/updateprofilepicture" enctype="multipart/form-data"
-                                target="target1">
+                            <form method="post" action="/updateprofilepicture" enctype="multipart/form-data">
                                 <input type="file" name="file"><br>
 
                                 <input type="submit" value="提交">
                             </form>
-                            <iframe name="target1" id="target1"></iframe>
                         </div>
-
-                        <!-- 模态框底部 -->
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
-                        </div>
-
                     </div>
                 </div>
             </div>
@@ -268,7 +274,7 @@
                     <p class="col-4" th:text="${userinfoself.department}"></p>
                 </div>
                 <p th:text="'喜好：'+${userinfoself.like}"></p>
-                
+
                 <div class="modal fade" id="myModal2">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -283,73 +289,74 @@
                             <div class="modal-body" id="userslefspacemodalmaindiv">
                                 <div>
                                     <div class="needs-validation" novalidate>
-                                        <div class="form-row">
-                                            <div class="col-md-6 mb-3">
-                                                <label for="validationTooltip01">用户名</label>
-                                                <input type="text" class="form-control" id="validationTooltip01"
-                                                    required th:value="${userinfoself.username}">
+                                        <form th:action="@{/updateuserinfo}" method="POST">
+                                            <div class="form-row">
+                                                <div class="col-md-6 mb-3">
+                                                    <label for="validationTooltip01">用户名</label>
+                                                    <input type="text" class="form-control" id="validationTooltip01"
+                                                        required th:value="${userinfoself.username}">
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <label for="validationTooltip02">昵称</label>
+                                                    <input name="nikename" type="text" class="form-control"
+                                                        id="validationTooltip02" required
+                                                        th:value="${userinfoself.nikename}">
+                                                </div>
                                             </div>
-                                            <div class="col-md-6 mb-3">
-                                                <label for="validationTooltip02">昵称</label>
-                                                <input type="text" class="form-control" id="validationTooltip02"
-                                                    required th:value="${userinfoself.nikename}">
+                                            <div class="form-row">
+                                                <div class="col-md-6 mb-3">
+                                                    <label for="validationTooltip03">年龄</label>
+                                                    <input name="age" type="text" class="form-control"
+                                                        id="validationTooltip03" required
+                                                        th:value="${userinfoself.age}">
+                                                </div>
+                                                <div class="col-md-3 mb-3">
+                                                    <label for="validationTooltip04">性别</label>
+                                                    <select name="sex" class="custom-select" id="validationTooltip04"
+                                                        required th:value="${userinfoself.sex}">
+                                                        <option>男</option>
+                                                        <option>女</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-3 mb-3">
+                                                    <label for="validationTooltip05">学院</label>
+                                                    <select name="department" class="custom-select"
+                                                        id="validationTooltip05" required
+                                                        th:value="${userinfoself.department}">
+                                                        <option>网络工程学院</option>
+                                                        <option>信息工程学院</option>
+                                                        <option>生物工程学院</option>
+                                                        <option>经济管理学院</option>
+                                                    </select>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="form-row">
-                                            <div class="col-md-6 mb-3">
-                                                <label for="validationTooltip03">年龄</label>
-                                                <input type="text" class="form-control" id="validationTooltip03"
-                                                    required th:value="${userinfoself.age}">
+                                            <div class="form-row">
+                                                <div class="col-md-6 mb-3">
+                                                    <label for="validationTooltip06">关键词</label>
+                                                    <input name="key" type="text" class="form-control"
+                                                        id="validationTooltip06" required
+                                                        th:value="${userinfoself.key}">
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <label or="validationTooltip07">喜好</label>
+                                                    <input name="like" ftype="text" class="form-control"
+                                                        id="validationTooltip07" required
+                                                        th:value="${userinfoself.like}">
+                                                </div>
                                             </div>
-                                            <div class="col-md-3 mb-3">
-                                                <label for="validationTooltip04">性别</label>
-                                                <select class="custom-select" id="validationTooltip04" required
-                                                    th:value="${userinfoself.sex}">
-                                                    <option>男</option>
-                                                    <option>女</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-md-3 mb-3">
-                                                <label for="validationTooltip05">学院</label>
-                                                <select class="custom-select" id="validationTooltip05" required
-                                                    th:value="${userinfoself.department}">
-                                                    <option>网络工程学院</option>
-                                                    <option>信息工程学院</option>
-                                                    <option>生物工程学院</option>
-                                                    <option>经济管理学院</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="form-row">
-                                            <div class="col-md-6 mb-3">
-                                                <label for="validationTooltip06">关键词</label>
-                                                <input type="text" class="form-control" id="validationTooltip06"
-                                                    required th:value="${userinfoself.key}">
-                                            </div>
-                                            <div class="col-md-6 mb-3">
-                                                <label for="validationTooltip07">喜好</label>
-                                                <input type="text" class="form-control" id="validationTooltip07"
-                                                    required th:value="${userinfoself.like}">
-                                            </div>
-                                        </div>
-
-
+                                            <button type="submit" class="btn btn-primary"
+                                                id="subuserinfosubut">提交</button>
+                                        </form>
                                     </div>
-                                    <button class="btn btn-primary" id="subuserinfosubut">提交</button>
+
                                 </div>
                             </div>
-
-                            <!-- 模态框底部 -->
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
-                            </div>
-
                         </div>
                     </div>
                 </div>
             </div>
-            <button type=button class="col-2 offset-10 btn btn-secondary" id="updateselfuserinfobutton" data-toggle="modal"
-                    data-target="#myModal2">修改资料</button>
+            <button type=button class="col-2 offset-10 btn btn-secondary" id="updateselfuserinfobutton"
+                data-toggle="modal" data-target="#myModal2">修改资料</button>
         </div>
     </div>
 
@@ -371,17 +378,23 @@
 
     <div class="container" th:fragment="jianjia-comment">
         <div class="media border p-3">
-            <img th:src="${postshowuserinfo.profilepicture}" class="mr-3 mt-3 rounded-circle" style="width:60px;">
             <div class="media-body">
-                <textarea class="form-control" rows="3" id="commentbox"></textarea>
-                <div class="d-flex flex-row-reverse">
-                    <button type="button" class="btn btn-info" id="post-comment">发送</button>
-                </div>
+                <form th:action="@{/postcomment}" method="POST">
+                    <textarea name="comment" class="form-control" rows="3" id="commentbox"></textarea>
+                    <input hidden class="form-control" name="showid" th:value="${usershow.id}">
+                    <div class="d-flex flex-row-reverse">
+                        <button type="submit" class="btn btn-info" id="post-comment">发送</button>
+                    </div>
+                </form>
             </div>
         </div>
-        <div class="media border p-3" th:each="comment:${showComments}">
+        <div class="media border p-3" th:each="showcommentandinfo:${showcommentandinfos}">
+            <img th:src="${showcommentandinfo.userinfo.profilepicture}" class="mr-3 mt-3 rounded-circle"
+                style="width:60px;">
             <div class="media-body">
-                <p th:text="${comment.comment}"></p>
+                <h4 th:text="${showcommentandinfo.userinfo.nikename}"></h4>
+                <p th:text="${showcommentandinfo.showcomment.comment}"></p>
+                <p th:text="${showcommentandinfo.showcomment.timedate}" style="font-size: 0.8em;"></p>
             </div>
         </div>
     </div>

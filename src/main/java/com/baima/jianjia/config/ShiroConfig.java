@@ -23,8 +23,9 @@ public class ShiroConfig{
         * 设置网页的权限
         */
         filterMap.put("/postcomment", "authc");
+        filterMap.put("/userselfspace", "authc");
         bean.setFilterChainDefinitionMap(filterMap);
-        bean.setLoginUrl("/index");
+        bean.setLoginUrl("/login");
         return bean;
     }
     @Bean

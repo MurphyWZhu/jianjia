@@ -36,7 +36,7 @@
 		delete from jianjia.userlike where username=#{username} and likeuser=#{likeuser}
 	</delete>
 	<insert id="postShow">
-		insert into jianjia.usershow (username,showdata,ispublic,timedate) values (#{username},#{showdata},#{ispublic},#{timedate})
+		insert into jianjia.usershow (username,showdata,timedate) values (#{username},#{showdata},#{timedate})
 	</insert>
 	<select id="getAllUserShows" resultType="UserShow">
 		select username,showdata,timedate,id from jianjia.usershow where ispublic=true order by id desc
@@ -61,5 +61,14 @@
 	</insert>
 	<select id="getShowById" resultType="UserShow" parameterType="int">
 		select * from jianjia.usershow where id=#{showid}
+	</select>
+	<select id="searchshowlike" resultType="int">
+		select count(*) from jianjia.showlike where showid=#{showid} and username=#{username}
+	</select>
+	<select id="searchUserinfoPage" resultType="Userinfo">
+		select * from jianjia.userinfo where (key like #{key} or nikename like #{key}) and sex like #{sexfilter} and department like #{departmentfilter} order by username limit 10 offset #{page}
+	</select>
+	<select id="countPage" resultType="int">
+		select count(*) from jianjia.userinfo where (key like #{key} or nikename like #{key}) and sex like #{sexfilter} and department like #{departmentfilter}
 	</select>
 </mapper>
