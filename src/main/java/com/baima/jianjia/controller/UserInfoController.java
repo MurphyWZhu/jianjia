@@ -54,12 +54,19 @@ public class UserInfoController {
         return new ModelAndView("userselfspace");
     }
 
-    @PostMapping(value = "userspace")
+    @RequestMapping(value = "userspace")
     public ModelAndView userSpace(String username, Model model) {
         Userinfo userinfo = userService.getUserInfobyName(username);
         List<UserShow> userShows = userService.getUserShows(username);
-        model.addAttribute("userShows", userShows);
-        model.addAttribute("userinfo", userinfo);
-        return new ModelAndView("subuserspace");
+        List<userShowAndInfo> usershowandinfos = new ArrayList<>();
+        for (UserShow userShow : userShows) {
+            userShowAndInfo usershowandinfo = new userShowAndInfo();
+            usershowandinfo.userShow = userShow;
+            usershowandinfo.userinfo = userinfo;
+            usershowandinfos.add(usershowandinfo);
+        }
+        model.addAttribute("usershowandinfos", usershowandinfos);
+        model.addAttribute("userinfoself", userinfo);
+        return new ModelAndView("userspace");
     }
 }

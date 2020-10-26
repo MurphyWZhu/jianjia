@@ -70,7 +70,9 @@
     <div id="userlistdiv" class="container" th:fragment="jianjia-userlist">
         <div class="card" th:each="userinfo:${userinfoList}">
             <div class="card-body row">
-                <img class="col-2 userinfodiv" th:src="${userinfo.profilepicture}" th:id="${userinfo.username}">
+                <a class="col-2" th:href="@{/userspace}+'?username='+${userinfo.username}">
+                    <img th:src="${userinfo.profilepicture}" th:id="${userinfo.username}" style="height: 100%;width: 100%;">
+                </a>
                 <div class="col-6">
                     <div class="row">
                         <h2 th:text="${userinfo.nikename}"></h2>
@@ -97,7 +99,9 @@
         <div style="margin: 0 auto;">
             <ul class="pagination" style="display: table;text-align: center;margin: 0 auto;">
                 <li class="page-item" th:each="mypage:${pagelist}" style="float: left;">
-                    <a class="page-link" th:href="@{/search}+'?key='+${searchkey}+'&sexfilter='+${searchsex}+'&departmentfilter='+${searchdepartment}+'&page='+${mypage}" th:text="${mypage}"></a>
+                    <a class="page-link"
+                        th:href="@{/search}+'?key='+${searchkey}+'&sexfilter='+${searchsex}+'&departmentfilter='+${searchdepartment}+'&page='+${mypage}"
+                        th:text="${mypage}"></a>
                 </li>
             </ul>
         </div>
@@ -236,6 +240,24 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="container" th:fragment="jianjia-userspace">
+        <div class="row jumbotron">
+            <img th:src="${userinfoself.profilepicture}" class="col-2" data-toggle="modal" data-target="#myModal1">
+            <div class="col-5">
+                <h2 th:text="${userinfoself.nikename}"></h2>
+                <p th:text="${userinfoself.motto}"></p>
+                <div class="row">
+                    <p class="col-1" th:text="${userinfoself.sex}"></p>
+                    <p class="col-2" th:text="${userinfoself.age}+'岁'"></p>
+                    <p class="col-4" th:text="${userinfoself.department}"></p>
+                </div>
+                <p th:text="'喜好：'+${userinfoself.like}"></p>
             </div>
         </div>
     </div>
