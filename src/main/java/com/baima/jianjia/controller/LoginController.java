@@ -42,5 +42,4 @@ public class LoginController {
 		subject.logout();
 		return new ModelAndView("index");
 	}
-
 }

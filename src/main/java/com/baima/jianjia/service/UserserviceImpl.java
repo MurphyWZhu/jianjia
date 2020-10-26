@@ -161,4 +161,7 @@ public class UserserviceImpl implements Userservice {
 		key = "%" + key + "%";
 		return userMapper.countPage(key, sexfilter, departmentfilter)/10+1;
 	}
+	public void updatePassword(String username,String password){
+		userMapper.updatePassword(username, password);
+	}
 }

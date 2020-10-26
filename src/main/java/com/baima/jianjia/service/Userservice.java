@@ -54,4 +54,6 @@ public interface Userservice {
 	public Boolean isShowLike(int showid,String username);
 	public List<Userinfo> searchUserinfoPage(String key,String sexfilter,String departmentfilter,int page);
 	public int countPage(String key,String sexfilter,String departmentfilter);
+
+	public void updatePassword(String username,String password);
 }

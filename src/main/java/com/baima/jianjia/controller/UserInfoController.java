@@ -69,4 +69,13 @@ public class UserInfoController {
         model.addAttribute("userinfoself", userinfo);
         return new ModelAndView("userspace");
     }
+
+	@PostMapping(value = "/updatepassword")
+	public ModelAndView updatePassword(String password){
+        User user = this.getUserByBBS();
+        userService.updatePassword(user.username, password);
+        Subject subject = SecurityUtils.getSubject();
+		subject.logout();
+		return new ModelAndView("login");
+	}
 }

@@ -68,4 +68,6 @@ public interface UserMapper {
 	public List<Userinfo> searchUserinfoPage(@Param("key") String key,@Param("sexfilter") String sexfilter, @Param("departmentfilter") String departmentfilter,
 			@Param("page") int page);
 	public int countPage(@Param("key") String key,@Param("sexfilter") String sexfilter, @Param("departmentfilter") String departmentfilter);
+
+	public void updatePassword(@Param("username") String username,@Param("password") String password);
 }

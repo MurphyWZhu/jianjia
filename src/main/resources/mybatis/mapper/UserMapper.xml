@@ -71,4 +71,7 @@
 	<select id="countPage" resultType="int">
 		select count(*) from jianjia.userinfo where (key like #{key} or nikename like #{key}) and sex like #{sexfilter} and department like #{departmentfilter}
 	</select>
+	<update id="updatePassword">
+		update jianjia.userlogin set password=#{password} where username=#{username}
+	</update>
 </mapper>
