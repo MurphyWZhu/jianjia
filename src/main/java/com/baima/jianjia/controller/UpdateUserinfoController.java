@@ -19,7 +19,9 @@ public class UpdateUserinfoController {
     @PostMapping(value = "updateuserinfo")
     public ModelAndView updateUserInfo(String nikename,int age, 
                                  String sex, String department,
-                                 String key,String like){
+                                 String key,String like,
+                                 String constellation,
+                                 String androphilia){
         Subject currentSubject = SecurityUtils.getSubject();
         Session session = currentSubject.getSession();
         User user = (User) session.getAttribute("loginUser");
@@ -28,7 +30,7 @@ public class UpdateUserinfoController {
             return null;
         }
         Userinfo userinfo = userService.getUserInfo(user);
-        userService.updateUserInfo(userinfo.username, age, nikename, sex, department, key, like);
+        userService.updateUserInfo(userinfo.username, age, nikename, sex, department, key, like,constellation,androphilia);
         return new ModelAndView("redirect:/userselfspace");
     }
 }

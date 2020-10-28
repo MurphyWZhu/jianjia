@@ -2,6 +2,7 @@ package com.baima.jianjia.service;
 
 import java.io.File;
 import java.util.List;
+import java.util.Map;
 
 import com.baima.jianjia.pojo.Showcomment;
 import com.baima.jianjia.pojo.User;
@@ -26,7 +27,7 @@ public interface Userservice {
 	public List<Userinfo> searchNikeName(String nikename, String sexfilter, String departmentfilter);
 
 	public void updateUserInfo(String username, int age, String nikename, String sex, String department, String key,
-			String like);
+			String like,String constellation,String androphilia);
 
 	public List<String> getLikeList(String username);
 
@@ -56,4 +57,6 @@ public interface Userservice {
 	public int countPage(String key,String sexfilter,String departmentfilter);
 
 	public void updatePassword(String username,String password);
+	public String getConstellationPairKey(String constellation,String pairconstellation);
+	public Userinfo pairUserByConstellation(String constellation,String sex,String androphilia);
 }

@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -14,6 +13,8 @@ public class Userinfo {
     public int age;
     public String nikename;
     public String sex;
+    public String androphilia;
+    public String constellation;
     public String department;
     public String profilepicture;
     public String key;

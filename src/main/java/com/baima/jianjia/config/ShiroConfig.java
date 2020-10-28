@@ -24,6 +24,7 @@ public class ShiroConfig{
         */
         filterMap.put("/postcomment", "authc");
         filterMap.put("/userselfspace", "authc");
+        filterMap.put("/pairuser", "authc");
         bean.setFilterChainDefinitionMap(filterMap);
         bean.setLoginUrl("/login");
         return bean;

@@ -2,8 +2,12 @@ package com.baima.jianjia.service;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
 import java.util.UUID;
 
 import com.baima.jianjia.mapper.UserMapper;
@@ -11,6 +15,7 @@ import com.baima.jianjia.pojo.Showcomment;
 import com.baima.jianjia.pojo.User;
 import com.baima.jianjia.pojo.UserShow;
 import com.baima.jianjia.pojo.Userinfo;
+import com.baima.jianjia.pojo.pairConstellation;
 import com.qcloud.cos.COSClient;
 import com.qcloud.cos.ClientConfig;
 import com.qcloud.cos.auth.BasicCOSCredentials;
@@ -68,8 +73,8 @@ public class UserserviceImpl implements Userservice {
 	}
 
 	public void updateUserInfo(String username, int age, String nikename, String sex, String department, String key,
-			String like) {
-		userMapper.updateUserInfo(username, age, nikename, sex, department, key, like);
+			String like,String constellation,String androphilia) {
+		userMapper.updateUserInfo(username, age, nikename, sex, department, key, like, constellation, androphilia);
 	}
 
 	public List<String> getLikeList(String username) {
@@ -163,5 +168,37 @@ public class UserserviceImpl implements Userservice {
 	}
 	public void updatePassword(String username,String password){
 		userMapper.updatePassword(username, password);
+	}
+
+	public String getConstellationPairKey(String constellation,String pairconstellation){
+		return userMapper.getConstellationPairKey(constellation,pairconstellation);
+	}
+
+	public Userinfo pairUserByConstellation(String constellation,String sex,String androphilia){
+		String pairsex = new String();
+		if(androphilia.contains("同性")){
+			pairsex = sex;
+		}else{
+			if(sex.contains("男")){
+				pairsex="女";
+			}else{
+				pairsex="男";
+			}
+		}
+		Random rd = new Random(System.currentTimeMillis());
+		List<pairConstellation> pairConstellations = userMapper.getPairConstellation(constellation);
+		List<Userinfo> userinfos0 = userMapper.pairUserByConstellation(pairConstellations.get(0).pairconstellation,pairsex);
+		int userinfocount0 = userinfos0.size(); 
+		List<Userinfo> userinfos1 = userMapper.pairUserByConstellation(pairConstellations.get(1).pairconstellation,pairsex);
+		int userinfocount1 = userinfos1.size(); 
+		int rdnum = rd.nextInt(userinfocount0+userinfocount1);
+		System.out.println(rdnum);
+		System.out.println(userinfocount0);
+		System.out.println(userinfocount1);
+		if(rdnum>userinfocount0-1){
+			return userinfos1.get(rdnum-userinfocount0);
+		}else{
+			return userinfos0.get(rdnum);
+		}
 	}
 }

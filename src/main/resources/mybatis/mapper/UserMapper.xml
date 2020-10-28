@@ -24,7 +24,7 @@
 		select * from jianjia.userinfo where nikename like #{nikename} and sex like #{sexfilter} and department like #{departmentfilter}
 	</select>
 	<update id="updateUserInfo">
-		update jianjia.userinfo set age=#{age},nikename=#{nikename},sex=#{sex},department=#{department},"key"=#{key},"like"=#{like} where username=#{username}
+		update jianjia.userinfo set age=#{age},nikename=#{nikename},sex=#{sex},department=#{department},"key"=#{key},"like"=#{like},constellation=#{constellation},androphilia=#{androphilia} where username=#{username}
 	</update>
 	<select id="getLikeList" resultType="String" parameterType="String">
 		select likeuser from jianjia.userlike where username=#{username}
@@ -74,4 +74,13 @@
 	<update id="updatePassword">
 		update jianjia.userlogin set password=#{password} where username=#{username}
 	</update>
+	<select id="pairUserByConstellation" resultType="Userinfo">
+		select * from jianjia.userinfo where constellation like #{constellation} and sex like #{pairsex}
+	</select>
+	<select id="getPairConstellation" resultType="pairConstellation" parameterType="String">
+		select * from jianjia.pairconstellation where constellation = #{constellation}
+	</select>
+	<select id="getConstellationPairKey" resultType="String">
+		select pairkey from jianjia.pairconstellation where constellation = #{constellation} and pairconstellation = #{pairconstellation}
+	</select>
 </mapper>

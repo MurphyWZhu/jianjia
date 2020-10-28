@@ -13,7 +13,7 @@
     <script type="text/javascript" th:src="@{/jianjia.js}"></script>
     <style type="text/css">
         body {
-            background-image: url(https://www.a.a/a.jpg);
+            background-image: 'https://jianjia-1253347887.cos.ap-nanjing.myqcloud.com/Jaipur.jpg';
             background-repeat: no-repeat;
             background-attachment: fixed
         }
@@ -27,8 +27,9 @@
 
 <body>
     <div th:fragment="jianjia-nav">
-        <div class="jumbotron text-center" style="margin-bottom:0;background-color: white">
-            <h1>蒹葭</h1>
+        <div class="jumbotron text-center" style="margin-bottom:0;background-color:white">
+
+            <img src="https://jianjia-1253347887.cos.ap-nanjing.myqcloud.com/login_jianjia.png">
         </div>
         <div id="maininfobox" style="position:fixed;top:10px;right:10px;z-index:100000;"></div>
         <nav class="navbar navbar-expand-sm bg-light navbar-light" style="color: rgb(196, 68, 68)">
@@ -41,6 +42,11 @@
                     <li class="nav-item" style="margin: 0 50px;">
                         <i class="fa-li fa fa-search" aria-hidden="true"></i>
                         <a class="nav-link" th:href="@{/search}">搜索</a>
+                    </li>
+                    
+                    <li class="nav-item" style="margin: 0 50px;">
+                        <i class="fa-li fa fa-search" aria-hidden="true"></i>
+                        <a class="nav-link" th:href="@{/pairuser}">匹配</a>
                     </li>
                     <li class="nav-item" style="margin: 0 50px;">
                         <i class="fa-li fa fa-star" aria-hidden="true"></i>
@@ -71,7 +77,8 @@
         <div class="card" th:each="userinfo:${userinfoList}">
             <div class="card-body row">
                 <a class="col-2" th:href="@{/userspace}+'?username='+${userinfo.username}">
-                    <img th:src="${userinfo.profilepicture}" th:id="${userinfo.username}" style="height: 100%;width: 100%;">
+                    <img th:src="${userinfo.profilepicture}" th:id="${userinfo.username}"
+                        style="height: 100%;width: 100%;">
                 </a>
                 <div class="col-6">
                     <div class="row">
@@ -80,9 +87,11 @@
                         <i class="fa fa-venus" aria-hidden="true" th:if='${userinfo.sex eq "女"}'></i>
                     </div>
                     <div class="row">
-                        <p th:text="${userinfo.age}"></p>
-                        <p th:text="${userinfo.sex}"></p>
+                        <p th:text="${userinfo.age}+'岁,'"></p>
+                        <p th:text="${userinfo.sex}+','"></p>
                         <p th:text="${userinfo.department}"></p>
+                        <p class="col-12" th:text="${userinfo.motto}"></p>
+                        <p class="col-12" th:text="'爱好:'+${userinfo.like}"></p>
                     </div>
 
                 </div>
@@ -366,6 +375,43 @@
                                                         th:value="${userinfoself.like}">
                                                 </div>
                                             </div>
+                                            <div class="form-row">
+                                                <div class="col-md-6 mb-3">
+                                                    <label for="validationTooltip08">星座</label>
+                                                    <select name="constellation" class="custom-select"
+                                                        id="validationTooltip08" required
+                                                        th:value="${userinfoself.constellation}">
+                                                        <option>白羊座</option>
+                                                        <option>金牛座</option>
+                                                        <option>双子座</option>
+                                                        <option>巨蟹座</option>
+                                                        <option>狮子座</option>
+                                                        <option>处女座</option>
+                                                        <option>天秤座</option>
+                                                        <option>天蝎座</option>
+                                                        <option>射手座</option>
+                                                        <option>摩羯座</option>
+                                                        <option>水瓶座</option>
+                                                        <option>双鱼座</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <label for="validationTooltip09">性取向</label>
+                                                    <select name="androphilia" class="custom-select"
+                                                        id="validationTooltip09" required
+                                                        th:value="${userinfoself.androphilia}">
+                                                        <option>异性</option>
+                                                        <option>同性</option>
+                                                        
+                                                    </select>
+                                                </div>
+                                                <div class="col-12">
+                                                    <label for="validationTooltip10">签名</label>
+                                                    <input name="motto" ftype="text" class="form-control"
+                                                        id="validationTooltip10" required
+                                                        th:value="${userinfoself.motto}">
+                                                </div>
+                                            </div>
                                             <button type="submit" class="btn btn-primary"
                                                 id="subuserinfosubut">提交</button>
                                         </form>
@@ -399,7 +445,8 @@
             </div>
             <button type="button" class="col-2 offset-10 btn btn-secondary" id="updateselfuserinfobutton"
                 data-toggle="modal" data-target="#myModal2">修改资料</button>
-            <button type="button" class="col-2 offset-10 btn btn-secondary" data-toggle="modal" data-target="#myModal3">修改密码</button>
+            <button type="button" class="col-2 offset-10 btn btn-secondary" data-toggle="modal"
+                data-target="#myModal3">修改密码</button>
         </div>
     </div>
 
@@ -438,6 +485,39 @@
                 <h4 th:text="${showcommentandinfo.userinfo.nikename}"></h4>
                 <p th:text="${showcommentandinfo.showcomment.comment}"></p>
                 <p th:text="${showcommentandinfo.showcomment.timedate}" style="font-size: 0.8em;"></p>
+            </div>
+        </div>
+    </div>
+    <div class="container" th:fragment="jianjia-pair">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-6">
+                        <img class="col-4 offset-4" th:src="${userinfo.profilepicture}">
+                        <h4 class="col-4 offset-4" th:text="${userinfo.nikename}"></h4>
+                        <p class="col-4 offset-4" th:text="${userinfo.department}"></p>
+                        <p class="col-4 offset-4" th:text="${userinfo.constellation}"></p>
+                    </div>
+                    <div class="col-6">
+                        <img class="col-4 offset-4" th:src="${pairuserinfo.profilepicture}">
+                        <h4 class="col-4 offset-4" th:text="${pairuserinfo.nikename}"></h4>
+                        <p class="col-4 offset-4" th:text="${pairuserinfo.department}"></p>
+                        <p class="col-4 offset-4" th:text="${pairuserinfo.constellation}"></p>
+                    </div>
+                    
+                    
+                </div>
+                <div class="row">
+                    <p class="col-8 offset-2">星座匹配:</p>
+                    <p class="col-8 offset-2" th:text=${pairkeyconstellation}></p>
+                </div>
+                <div class="row" id="userlistdiv">
+                    <button type="button" class="btn btn-primary col-2 offset-4" th:id="'rmlike'+${pairuserinfo.username}"
+                        th:if="${pairuserinfo.likeit}" th:value="${pairuserinfo.username}">取消喜欢</button>
+                    <button type="button" class="btn btn-danger col-2 offset-4" th:id="'tolike'+${pairuserinfo.username}"
+                        th:if="${!pairuserinfo.likeit}" th:value="${pairuserinfo.username}">喜欢</button>
+                    <a type="button" class="btn btn-primary col-2" th:href="@{/pairuser}">重新匹配</a>
+                </div>
             </div>
         </div>
     </div>

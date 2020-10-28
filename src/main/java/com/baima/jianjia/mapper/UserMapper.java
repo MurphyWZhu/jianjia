@@ -10,6 +10,7 @@ import com.baima.jianjia.pojo.Showcomment;
 import com.baima.jianjia.pojo.User;
 import com.baima.jianjia.pojo.UserShow;
 import com.baima.jianjia.pojo.Userinfo;
+import com.baima.jianjia.pojo.pairConstellation;
 
 @Repository
 @Mapper
@@ -34,7 +35,8 @@ public interface UserMapper {
 
 	public void updateUserInfo(@Param("username") String username, @Param("age") int age,
 			@Param("nikename") String nikename, @Param("sex") String sex, @Param("department") String department,
-			@Param("key") String key, @Param("like") String like);
+			@Param("key") String key, @Param("like") String like,
+			@Param("constellation") String constellation,@Param("androphilia") String androphilia);
 
 	public List<String> getLikeList(String username);
 
@@ -70,4 +72,8 @@ public interface UserMapper {
 	public int countPage(@Param("key") String key,@Param("sexfilter") String sexfilter, @Param("departmentfilter") String departmentfilter);
 
 	public void updatePassword(@Param("username") String username,@Param("password") String password);
+
+	public List<Userinfo> pairUserByConstellation(@Param("constellation") String constellation,@Param("pairsex") String pairsex);
+	public List<pairConstellation> getPairConstellation(String constellation);
+	public String getConstellationPairKey(@Param("constellation") String constellation,@Param("pairconstellation") String pairconstellation);
 }
