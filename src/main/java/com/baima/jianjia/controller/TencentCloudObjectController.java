@@ -4,11 +4,9 @@ import java.io.File;
 import java.io.IOException;
 
 import com.baima.jianjia.pojo.User;
-import com.baima.jianjia.service.UserserviceImpl;
+import com.baima.jianjia.service.UserInfoServiceImpl;
 
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.session.Session;
-import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,16 +17,14 @@ import org.springframework.web.servlet.ModelAndView;
 @RestController
 public class TencentCloudObjectController {
     @Autowired
-    UserserviceImpl userService;
+    UserInfoServiceImpl userInfoService;
 
     @PostMapping(value = "/updateprofilepicture")
     public ModelAndView updateProfilePicture(@RequestParam("file") MultipartFile file) {
         if (file.isEmpty()) {
             return new ModelAndView("redirect:/userselfspace");
         }
-        Subject currentSubject = SecurityUtils.getSubject();
-        Session session = currentSubject.getSession();
-        User user = (User) session.getAttribute("loginUser");
+        User user = (User) SecurityUtils.getSubject().getSession().getAttribute("loginUser");
         String fileName = file.getOriginalFilename();
         System.out.println(fileName);
         String filetype = fileName.substring(fileName.lastIndexOf("."));
@@ -45,7 +41,7 @@ public class TencentCloudObjectController {
             e.printStackTrace();
             return new ModelAndView("redirect:/userselfspace");
         }
-        userService.updateUserpicture(dest, user.username,filetype);
+        userInfoService.updateUserpicture(dest, user.username,filetype);
         return new ModelAndView("redirect:/userselfspace");
     }
 }

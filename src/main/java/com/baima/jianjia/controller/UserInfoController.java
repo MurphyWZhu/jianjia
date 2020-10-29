@@ -4,44 +4,38 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.baima.jianjia.pojo.User;
+import com.baima.jianjia.pojo.UserInfo;
 import com.baima.jianjia.pojo.UserShow;
-import com.baima.jianjia.pojo.Userinfo;
-import com.baima.jianjia.service.UserserviceImpl;
+import com.baima.jianjia.service.UserInfoServiceImpl;
+import com.baima.jianjia.service.UserShowServiceImpl;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.session.Session;
-import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 @RestController
 public class UserInfoController {
-    public User getUserByBBS(){
-        Subject currentSubject = SecurityUtils.getSubject();
-        Session session = currentSubject.getSession();
-        User user = (User) session.getAttribute("loginUser");
-        return user;
-    }
     public class userShowAndInfo{
-        public Userinfo userinfo;
+        public UserInfo userinfo;
         public UserShow userShow;
     }
     @Autowired
-    UserserviceImpl userService;
+    UserInfoServiceImpl userInfoService;
 
+    @Autowired
+    UserShowServiceImpl userShowService;
     @RequestMapping(value = "userselfspace")
     public ModelAndView UserSelfSpace(Model model) {
-        User user = this.getUserByBBS();
+        User user = (User) SecurityUtils.getSubject().getSession().getAttribute("loginUser");
         if (user == null) {
             System.out.println("no login");
             return null;
         }
-        Userinfo userinfo = userService.getUserInfo(user);
+        UserInfo userinfo = userInfoService.getUserInfo(user);
         System.out.println(userinfo.profilepicture);
-        List<UserShow> userShows = userService.getSelfShows(user.username);
+        List<UserShow> userShows = userShowService.getSelfShows(user.username);
         List<userShowAndInfo> usershowandinfos = new ArrayList<>();
         for (UserShow userShow : userShows) {
             userShowAndInfo usershowandinfo = new userShowAndInfo();
@@ -56,8 +50,8 @@ public class UserInfoController {
 
     @RequestMapping(value = "userspace")
     public ModelAndView userSpace(String username, Model model) {
-        Userinfo userinfo = userService.getUserInfobyName(username);
-        List<UserShow> userShows = userService.getUserShows(username);
+        UserInfo userinfo = userInfoService.getUserInfobyName(username);
+        List<UserShow> userShows = userShowService.getUserShows(username);
         List<userShowAndInfo> usershowandinfos = new ArrayList<>();
         for (UserShow userShow : userShows) {
             userShowAndInfo usershowandinfo = new userShowAndInfo();
@@ -69,13 +63,4 @@ public class UserInfoController {
         model.addAttribute("userinfoself", userinfo);
         return new ModelAndView("userspace");
     }
-
-	@PostMapping(value = "/updatepassword")
-	public ModelAndView updatePassword(String password){
-        User user = this.getUserByBBS();
-        userService.updatePassword(user.username, password);
-        Subject subject = SecurityUtils.getSubject();
-		subject.logout();
-		return new ModelAndView("login");
-	}
 }

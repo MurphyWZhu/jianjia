@@ -14,73 +14,7 @@
     <insert id="addUser">
 		insert into jianjia.userlogin values (#{username},#{password})
 	</insert>
-    <select id="getUserInfo" resultType="Userinfo" parameterType="String">
-		select * from jianjia.userinfo where username=#{username}
-	</select>
-	<select id="searchKey" resultType="Userinfo">
-		select * from jianjia.userinfo where key like #{key} and sex like #{sexfilter} and department like #{departmentfilter}
-	</select>
-	<select id="searchNikeName" resultType="Userinfo">
-		select * from jianjia.userinfo where nikename like #{nikename} and sex like #{sexfilter} and department like #{departmentfilter}
-	</select>
-	<update id="updateUserInfo">
-		update jianjia.userinfo set age=#{age},nikename=#{nikename},sex=#{sex},department=#{department},"key"=#{key},"like"=#{like},constellation=#{constellation},androphilia=#{androphilia} where username=#{username}
-	</update>
-	<select id="getLikeList" resultType="String" parameterType="String">
-		select likeuser from jianjia.userlike where username=#{username}
-	</select>
-	<insert id="toLike">
-		insert into jianjia.userlike values (#{username},#{likeuser})
-	</insert>
-	<delete id="rmLike">
-		delete from jianjia.userlike where username=#{username} and likeuser=#{likeuser}
-	</delete>
-	<insert id="postShow">
-		insert into jianjia.usershow (username,showdata,timedate) values (#{username},#{showdata},#{timedate})
-	</insert>
-	<select id="getAllUserShows" resultType="UserShow">
-		select username,showdata,timedate,id from jianjia.usershow where ispublic=true order by id desc
-	</select>
-	<select id="getUserShows" resultType="UserShow" parameterType="String">
-		select username,showdata,timedate,id from jianjia.usershow where ispublic=true and username=#{username}  order by id desc
-	</select>
-	<select id="getSelfShows" resultType="UserShow" parameterType="String">
-		select username,showdata,timedate,id from jianjia.usershow where username=#{username} order by id desc
-	</select>
-	<update id="updateUserPicture">
-		update jianjia.userinfo set profilepicture=#{url} where username=#{username}
-	</update>
-	<select id="getShowcomments" resultType="Showcomment" parameterType="int">
-		select * from jianjia.showcomments where showid=#{showid}
-	</select>
-	<insert id="postComment">
-		insert into jianjia.showcomments (username,comment,showid,timedate) values (#{username},#{comment},#{showid},#{timedate}) 
-	</insert>
-	<insert id="showLike">
-		insert into jianjia.showlike (showid,username,timedate) values(#{showid},#{username},#{timedate})
-	</insert>
-	<select id="getShowById" resultType="UserShow" parameterType="int">
-		select * from jianjia.usershow where id=#{showid}
-	</select>
-	<select id="searchshowlike" resultType="int">
-		select count(*) from jianjia.showlike where showid=#{showid} and username=#{username}
-	</select>
-	<select id="searchUserinfoPage" resultType="Userinfo">
-		select * from jianjia.userinfo where (key like #{key} or nikename like #{key}) and sex like #{sexfilter} and department like #{departmentfilter} order by username limit 10 offset #{page}
-	</select>
-	<select id="countPage" resultType="int">
-		select count(*) from jianjia.userinfo where (key like #{key} or nikename like #{key}) and sex like #{sexfilter} and department like #{departmentfilter}
-	</select>
 	<update id="updatePassword">
 		update jianjia.userlogin set password=#{password} where username=#{username}
 	</update>
-	<select id="pairUserByConstellation" resultType="Userinfo">
-		select * from jianjia.userinfo where constellation like #{constellation} and sex like #{pairsex}
-	</select>
-	<select id="getPairConstellation" resultType="pairConstellation" parameterType="String">
-		select * from jianjia.pairconstellation where constellation = #{constellation}
-	</select>
-	<select id="getConstellationPairKey" resultType="String">
-		select pairkey from jianjia.pairconstellation where constellation = #{constellation} and pairconstellation = #{pairconstellation}
-	</select>
 </mapper>

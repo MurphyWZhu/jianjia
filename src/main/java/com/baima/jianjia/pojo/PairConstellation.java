@@ -7,10 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Showcomment {
-    public int commentid;
-    public int showid;
-    public String comment;
-    public String username;
-    public String timedate;
+public class PairConstellation {
+    public String constellation;
+    public String pairconstellation;
+    public String pairkey;
 }

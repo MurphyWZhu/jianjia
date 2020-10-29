@@ -4,7 +4,7 @@ package  com.baima.jianjia.config;
 */
 
 import com.baima.jianjia.pojo.User;
-import com.baima.jianjia.service.UserserviceImpl;
+import com.baima.jianjia.service.UserServiceImpl;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -21,7 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class UserRealm extends AuthorizingRealm {
     @Autowired
-    UserserviceImpl userService;
+    UserServiceImpl userService;
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals){
         return null;

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.baima.jianjia.mapper.UserShowMapper">
+    <insert id="postShow">
+		insert into jianjia.usershow (username,showdata,timedate) values (#{username},#{showdata},#{timedate})
+	</insert>
+    <select id="getAllUserShows" resultType="UserShow">
+		select username,showdata,timedate,id from jianjia.usershow where ispublic=true order by id desc
+	</select>
+    <select id="getUserShows" resultType="UserShow" parameterType="String">
+		select username,showdata,timedate,id from jianjia.usershow where ispublic=true and username=#{username}  order by id desc
+	</select>
+    <select id="getSelfShows" resultType="UserShow" parameterType="String">
+		select username,showdata,timedate,id from jianjia.usershow where username=#{username} order by id desc
+	</select>
+	<select id="getShowcomments" resultType="Showcomment" parameterType="int">
+		select * from jianjia.showComments where showid=#{showid}
+	</select>
+	<insert id="postComment">
+		insert into jianjia.showComments (username,comment,showid,timedate) values (#{username},#{comment},#{showid},#{timedate})
+	</insert>
+	<insert id="showLike">
+		insert into jianjia.showlike (showid,username,timedate) values(#{showid},#{username},#{timedate})
+	</insert>
+	<select id="getShowById" resultType="UserShow" parameterType="int">
+		select * from jianjia.usershow where id=#{showid}
+	</select>
+	<select id="searchshowlike" resultType="int">
+		select count(*) from jianjia.showlike where showid=#{showid} and username=#{username}
+	</select>
+</mapper>
